@@ -1,7 +1,7 @@
 Sistema Gestor de Pacientes
 =============
 Descripción del proyecto 
-``
+```
 Cree un sistema para gestionar las visitas de pacientes de  un hospital.  A dicho sistema 
 podrán acceder los médicos y las asistentes.  
 El sistema permitirá a los médicos ingresar pacientes al sistema así como  mantener un 
