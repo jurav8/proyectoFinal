@@ -11,14 +11,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
-@Table(name="medico")
+@NamedQuery(name = "Medico.buscarMedico", query = "from Medico")
+@Table(name = "medico")
 public class Medico extends Persona{
 
 	@OneToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	@OneToMany(mappedBy="medico",targetEntity=Especialidad.class,fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "medico", targetEntity = Especialidad.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Especialidad> especialidades; 
 	
 	public Medico(){

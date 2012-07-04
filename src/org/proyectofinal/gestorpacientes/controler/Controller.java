@@ -2,7 +2,10 @@ package org.proyectofinal.gestorpacientes.controler;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -199,4 +202,12 @@ public class Controller {
 		session.getTransaction().commit();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Medico> getMedico(){
+		session.beginTransaction().begin();
+		Query q =  session.getNamedQuery("Medico.buscarMedico");
+		List medicos = q.list();
+		session.getTransaction().commit();
+		return medicos;
+	}
 }
