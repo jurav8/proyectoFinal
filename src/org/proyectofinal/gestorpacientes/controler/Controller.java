@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,14 +23,14 @@ import org.proyectofinal.gestorpacientes.modelo.ResultadoDeLaboratorio;
 import org.proyectofinal.gestorpacientes.modelo.Usuario;
 
 public class Controller {
-	
+
 	private static Controller instancia;
 	private AnnotationConfiguration config;
 	private SessionFactory factory;
 	private Session session;
-	
-	private Controller(Boolean script,Boolean export){
-		
+
+	private Controller(Boolean script, Boolean export) {
+
 		config = new AnnotationConfiguration();
 		config.addAnnotatedClass(Alergia.class);
 		config.addAnnotatedClass(Asistentes.class);
@@ -46,24 +45,26 @@ public class Controller {
 		config.addAnnotatedClass(ResultadoDeLaboratorio.class);
 		config.addAnnotatedClass(Usuario.class);
 		config.configure("hibernate.cfg.xml");
-		
-		new SchemaExport(config).create(script,export);
-		
+
+		new SchemaExport(config).create(script, export);
+
 		factory = config.buildSessionFactory();
 		session = factory.getCurrentSession();
-		session.beginTransaction();
 	}
-	
-	public static Controller getEnlace(Boolean script,Boolean export){
-		if(instancia == null)
-			instancia = new Controller(script,export);
-		
+
+	public static Controller getEnlace(Boolean script, Boolean export) {
+		if (instancia == null)
+			instancia = new Controller(script, export);
+
 		return instancia;
 	}
-	
-	public void crearMedico(String nombre, String apellido,String telefonoCasa,String telefonoCelular, String direccion,String cedula,
-							Usuario usuario,ArrayList<Especialidad> especialidades){
-		
+
+	public void crearMedico(String nombre, String apellido,
+			String telefonoCasa, String telefonoCelular, String direccion,
+			String cedula, Usuario usuario,
+			ArrayList<Especialidad> especialidades) {
+
+		session.beginTransaction().begin();
 		Medico medico = new Medico();
 		medico.setApellido(apellido);
 		medico.setCedula(cedula);
@@ -73,20 +74,24 @@ public class Controller {
 		medico.setTelefonoCelular(telefonoCelular);
 		medico.setUsuario(usuario);
 		medico.setEspecialidades(especialidades);
-		
-		for(Especialidad especialidad :especialidades ){
+
+		for (Especialidad especialidad : especialidades) {
 			especialidad.setMedico(medico);
 			session.save(especialidad);
-		}	
+		}
 		session.save(medico);
 		session.save(usuario);
-		
+
 		session.getTransaction().commit();
 	}
-	
-	public void crearPaciente(String nombre,String apellido, String telefonoCasa, String telefonoCelular,
-			String direccion, String cedula,GregorianCalendar fechaNacimiento,int fumador,	
-			String nombreFoto, ArrayList<Alergia> alergias, ArrayList<Padecimientos> padecimientos ){
+
+	public void crearPaciente(String nombre, String apellido,
+			String telefonoCasa, String telefonoCelular, String direccion,
+			String cedula, GregorianCalendar fechaNacimiento, int fumador,
+			String nombreFoto, ArrayList<Alergia> alergias,
+			ArrayList<Padecimientos> padecimientos) {
+		
+		session.beginTransaction().begin();
 		
 		Paciente paciente = new Paciente();
 		paciente.setApellido(apellido);
@@ -100,22 +105,25 @@ public class Controller {
 		paciente.setNombreFoto(nombreFoto);
 		paciente.setPadecimientos(padecimientos);
 		paciente.setAlergia(alergias);
-		
-		for(Alergia alergia : alergias){
+
+		for (Alergia alergia : alergias) {
 			alergia.setPaciente(paciente);
 			session.save(alergia);
 		}
-		for(Padecimientos padecimiento:  padecimientos){
+		for (Padecimientos padecimiento : padecimientos) {
 			padecimiento.setPadecimientoPaciente(paciente);
 			session.save(padecimiento);
 		}
-		
+
 		session.save(paciente);
 		session.getTransaction().commit();
 	}
-	
-	public void crearAsistente(String nombre,String apellido,String telefonoCasa,String telefonoCelular,String direccion,String cedula,
-								Usuario usuario){
+
+	public void crearAsistente(String nombre, String apellido,
+			String telefonoCasa, String telefonoCelular, String direccion,
+			String cedula, Usuario usuario) {
+
+		session.beginTransaction().begin();
 		
 		Asistentes asistente = new Asistentes();
 		asistente.setApellido(apellido);
@@ -125,87 +133,100 @@ public class Controller {
 		asistente.setTelefonoCasa(telefonoCasa);
 		asistente.setTelefonoCelular(telefonoCelular);
 		asistente.setUsuario(usuario);
-		
+
 		session.save(usuario);
 		session.save(asistente);
 		session.getTransaction().commit();
 	}
-	
-	public void crearCitas(GregorianCalendar fecha, String hora,String causa,Medico medico,Paciente paciente){
+
+	public void crearCitas(GregorianCalendar fecha, String hora, String causa,
+			Medico medico, Paciente paciente) {
+		
+		session.beginTransaction().begin();
+		
 		Citas cita = new Citas();
 		cita.setCausa(causa);
 		cita.setFecha(fecha);
 		cita.setHora(hora);
 		cita.setIdMedico(medico);
 		cita.setIdPaciente(paciente);
-		
+
 		session.save(cita);
 		session.getTransaction().commit();
 	}
-	
-	public void crearPruebaLaboratorio(String nombreDeLaPrueba){
-		 
+
+	public void crearPruebaLaboratorio(String nombreDeLaPrueba) {
+
+		session.beginTransaction().begin();
+		
 		PruebaDeLaboratorio prueba = new PruebaDeLaboratorio();
 		prueba.setNombreDeLaPrueba(nombreDeLaPrueba);
-		
+
 		session.save(prueba);
 		session.getTransaction().commit();
 	}
-	
-	public void crearRecetas(String medicamentos, Paciente idPaciente, Padecimientos idPadecimientos){
-	
+
+	public void crearRecetas(String medicamentos, Paciente idPaciente,
+			Padecimientos idPadecimientos) {
+
+		session.beginTransaction().begin();
+		
 		Recetas receta = new Recetas(medicamentos);
 		receta.setIdPadecimientos(idPadecimientos);
 		receta.setIdPaciente(idPaciente);
-		
+
 		session.save(receta);
 		session.getTransaction().commit();
 	}
-	
-	public void crearResultadoDeLaboratorio(String resultado, Paciente idPaciente , PruebaDeLaboratorio idPruebaLaboratorio){
-	
-		ResultadoDeLaboratorio resultadoLab = new ResultadoDeLaboratorio(resultado);
+
+	public void crearResultadoDeLaboratorio(String resultado,
+			Paciente idPaciente, PruebaDeLaboratorio idPruebaLaboratorio) {
+
+		session.beginTransaction().begin();
+		
+		ResultadoDeLaboratorio resultadoLab = new ResultadoDeLaboratorio(
+				resultado);
 		resultadoLab.setIdPaciente(idPaciente);
 		resultadoLab.setIdPruebaLaboratorio(idPruebaLaboratorio);
-		
+
 		session.save(resultadoLab);
 		session.getTransaction().commit();
 	}
-	
-	public Medico consultarMedico(int id){
+
+	public Medico consultarMedico(int id) {
 		return (Medico) session.get(Medico.class, id);
 	}
-	
-	public Paciente consultarPaciente(int id){
+
+	public Paciente consultarPaciente(int id) {
 		return (Paciente) session.get(Paciente.class, id);
 	}
-	
-	public Padecimientos consultarPadecimiento(int id){
+
+	public Padecimientos consultarPadecimiento(int id) {
 		return (Padecimientos) session.get(Padecimientos.class, id);
 	}
-	
-	public PruebaDeLaboratorio consultarPruebaDeLaboratorio(int id){
+
+	public PruebaDeLaboratorio consultarPruebaDeLaboratorio(int id) {
 		return (PruebaDeLaboratorio) session.get(PruebaDeLaboratorio.class, id);
 	}
-	
-	public Citas consultarCitas(int id){
+
+	public Citas consultarCitas(int id) {
 		return (Citas) session.get(Citas.class, id);
 	}
-	
-	public void modificar(Object objeto){
+
+	public void modificar(Object objeto) {
 		session.update(objeto);
 		session.getTransaction().commit();
 	}
-	
-	public void eliminar(Object objeto){
+
+	public void eliminar(Object objeto) {
 		session.delete(objeto);
 		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Medico> getMedico(){
+	public List<Medico> getMedico() {
 		session.beginTransaction().begin();
-		Query q =  session.getNamedQuery("Medico.buscarMedico");
+		Query q = session.getNamedQuery("Medico.buscarMedico");
 		List medicos = q.list();
 		session.getTransaction().commit();
 		return medicos;
