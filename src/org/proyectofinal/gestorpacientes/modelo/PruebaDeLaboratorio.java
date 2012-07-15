@@ -3,6 +3,8 @@ package org.proyectofinal.gestorpacientes.modelo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,6 +16,9 @@ public class PruebaDeLaboratorio {
 	@GeneratedValue(generator="persona")
 	private int codigoPrueba;
 	private String nombreDeLaPrueba;
+	@OneToOne
+	@JoinColumn(name = "paciente_id")
+	private Paciente idPaciente;
 	
 	public int getCodigoPrueba() {
 		return codigoPrueba;
@@ -26,6 +31,12 @@ public class PruebaDeLaboratorio {
 	}
 	public void setNombreDeLaPrueba(String nombreDeLaPrueba) {
 		this.nombreDeLaPrueba = nombreDeLaPrueba;
+	}
+	public Paciente getIdPaciente() {
+		return idPaciente;
+	}
+	public void setIdPaciente(Paciente idPaciente) {
+		this.idPaciente = idPaciente;
 	}
 	
 	

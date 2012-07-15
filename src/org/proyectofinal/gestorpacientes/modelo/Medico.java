@@ -14,34 +14,36 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
-@NamedQuery(name = "Medico.buscarMedico", query = "from Medico")
+@NamedQuery(name = "Medico.buscarMedicos", query = "from Medico")
 @Table(name = "medico")
-public class Medico extends Persona{
+public class Medico extends Persona {
 
 	@OneToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
-	@OneToMany(mappedBy = "medico", targetEntity = Especialidad.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Especialidad> especialidades; 
-	
-	public Medico(){
-		especialidades = new ArrayList<Especialidad>();
+
+	@OneToMany(mappedBy = "idMedico", targetEntity = RelacionEspecialidadMedico.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<RelacionEspecialidadMedico> especialidades;
+
+	public Medico() {
+		setEspecialidades(new ArrayList<RelacionEspecialidadMedico>());
 	}
-	
-	public List<Especialidad> getEspecialidades() {
-		return especialidades;
-	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
-	public void setEspecialidades(List<Especialidad> especialidades) {
+	public List<RelacionEspecialidadMedico> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(
+			List<RelacionEspecialidadMedico> especialidades) {
 		this.especialidades = especialidades;
-	}	
-	
-	
-	
+	}
+
 }

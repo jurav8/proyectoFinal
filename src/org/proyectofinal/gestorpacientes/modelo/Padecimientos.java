@@ -16,9 +16,6 @@ public class Padecimientos {
 	@GeneratedValue(generator="persona")
 	private int idPadecimiento;
 	private String nombre;
-	@ManyToOne
-	@JoinColumn(name="paciente_id")
-	private Paciente padecimientoPaciente;
 
 	public int getIdPadecimiento() {
 		return idPadecimiento;
@@ -32,13 +29,5 @@ public class Padecimientos {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Paciente getPadecimientoPaciente() {
-		return padecimientoPaciente;
-	}
-	public void setPadecimientoPaciente(Paciente padecimientoPaciente) {
-		this.padecimientoPaciente = padecimientoPaciente;
-	}
-	
-	
 
 }
