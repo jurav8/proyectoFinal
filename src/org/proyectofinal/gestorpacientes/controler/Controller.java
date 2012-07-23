@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.proyectofinal.gestorpacientes.modelo.Alergia;
+
 import org.proyectofinal.gestorpacientes.modelo.Asistentes;
 import org.proyectofinal.gestorpacientes.modelo.Citas;
 import org.proyectofinal.gestorpacientes.modelo.Especialidad;
@@ -19,7 +19,6 @@ import org.proyectofinal.gestorpacientes.modelo.Padecimientos;
 import org.proyectofinal.gestorpacientes.modelo.Persona;
 import org.proyectofinal.gestorpacientes.modelo.PruebaDeLaboratorio;
 import org.proyectofinal.gestorpacientes.modelo.Recetas;
-import org.proyectofinal.gestorpacientes.modelo.RelacionAlergiaPaciente;
 import org.proyectofinal.gestorpacientes.modelo.RelacionEspecialidadMedico;
 import org.proyectofinal.gestorpacientes.modelo.RelacionPadecimientoPaciente;
 import org.proyectofinal.gestorpacientes.modelo.ResultadoDeLaboratorio;
@@ -35,7 +34,6 @@ public class Controller {
 	private Controller(Boolean script, Boolean export) {
 
 		config = new AnnotationConfiguration();
-		config.addAnnotatedClass(Alergia.class);
 		config.addAnnotatedClass(Asistentes.class);
 		config.addAnnotatedClass(Citas.class);
 		config.addAnnotatedClass(Especialidad.class);
@@ -49,13 +47,12 @@ public class Controller {
 		config.addAnnotatedClass(Usuario.class);
 		config.addAnnotatedClass(RelacionEspecialidadMedico.class);
 		config.addAnnotatedClass(RelacionPadecimientoPaciente.class);
-		config.addAnnotatedClass(RelacionAlergiaPaciente.class);
 		config.configure("hibernate.cfg.xml");
 
 		new SchemaExport(config).create(script, export);
 
 		factory = config.buildSessionFactory();
-		session = factory.getCurrentSession();
+		session = factory.openSession();
 	}
 
 	public static Controller getEnlace(Boolean script, Boolean export) {
@@ -114,13 +111,10 @@ public class Controller {
 	public void crearPaciente(String nombre, String apellido,
 			String telefonoCasa, String telefonoCelular, String direccion,
 			String cedula, GregorianCalendar fechaNacimiento, int fumador,
-			String nombreFoto, ArrayList<Alergia> alergias,
-			ArrayList<Padecimientos> padecimientos) {
+			String nombreFoto, String alergias) {
 
 		session.beginTransaction().begin();
-		ArrayList<RelacionAlergiaPaciente> alergia = new ArrayList<>();
-		ArrayList<RelacionPadecimientoPaciente> pacientePadecimientos = new ArrayList<>();
-		
+
 		Paciente paciente = new Paciente();
 		paciente.setApellido(apellido);
 		paciente.setCedula(cedula);
@@ -131,47 +125,37 @@ public class Controller {
 		paciente.setFechaNacimiento(fechaNacimiento);
 		paciente.setFumador(fumador);
 		paciente.setNombreFoto(nombreFoto);
-
-		for (Alergia aler : alergias) {
-			RelacionAlergiaPaciente pacienAler = new RelacionAlergiaPaciente();
-			pacienAler.setAlergiaPaciente(paciente);
-			pacienAler.setIdAlergia(aler);
-			alergia.add(pacienAler);
-			session.save(pacienAler);
-		}
-		paciente.setAlergia(alergia);
-		
-		
-		for(Padecimientos padecimiento: padecimientos){
-			RelacionPadecimientoPaciente pacientePadeciemient = new RelacionPadecimientoPaciente();
-			pacientePadeciemient.setIdPaciente(paciente);
-			pacientePadeciemient.setIdPadeciemiento(padecimiento);
-			pacientePadecimientos.add(pacientePadeciemient);
-			session.save(padecimiento);
-		}
-		paciente.setPadecimientos(pacientePadecimientos);
+		paciente.setAlergias(alergias);
 
 		session.save(paciente);
 		session.getTransaction().commit();
 	}
 
-	public void crearAlergia(String nombreAlergia) {
+	public void agregarPadecimientoPaciente(Paciente paciente,
+			ArrayList<Padecimientos> padecimiento) {
 
-		session.beginTransaction().begin();
-		Alergia alergia = new Alergia();
-		alergia.setNombreAlergia(nombreAlergia);
+		ArrayList<RelacionPadecimientoPaciente> padecimientosDePaciente = new ArrayList<>();
 
-		session.save(alergia);
+		for (Padecimientos relacion : padecimiento) {
+			RelacionPadecimientoPaciente relacionPadecimientoPaciente = new RelacionPadecimientoPaciente();
+			relacionPadecimientoPaciente.setIdPadeciemiento(relacion);
+			relacionPadecimientoPaciente.setIdPaciente(paciente);
+			padecimientosDePaciente.add(relacionPadecimientoPaciente);
+			session.save(relacionPadecimientoPaciente);
+		}
+		paciente.setPadecimientos(padecimientosDePaciente);
+
+		session.update(paciente);
 		session.getTransaction().commit();
 	}
-	
-	public void crearPadecimiento(String nombre){
-		
+
+	public void crearPadecimiento(String nombre) {
+
 		session.beginTransaction().begin();
-		
+
 		Padecimientos padecieminto = new Padecimientos();
 		padecieminto.setNombre(nombre);
-		
+
 		session.save(padecieminto);
 		session.getTransaction().commit();
 	}
@@ -212,7 +196,8 @@ public class Controller {
 		session.getTransaction().commit();
 	}
 
-	public void crearPruebaLaboratorio(String nombreDeLaPrueba, Paciente idPaciente) {
+	public void crearPruebaLaboratorio(String nombreDeLaPrueba,
+			Paciente idPaciente) {
 
 		session.beginTransaction().begin();
 
@@ -254,11 +239,6 @@ public class Controller {
 	public Medico consultarMedico(int id) {
 		session.beginTransaction().begin();
 		return (Medico) session.get(Medico.class, id);
-	}
-
-	public Alergia consultarAlergia(int id) {
-		session.beginTransaction().begin();
-		return (Alergia) session.get(Alergia.class, id);
 	}
 
 	public Paciente consultarPaciente(int id) {

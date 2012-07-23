@@ -1,6 +1,5 @@
 package org.proyectofinal.gestorpacientes.modelo;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -16,8 +15,7 @@ public class Paciente extends Persona {
 	private GregorianCalendar fechaNacimiento;
 	private int fumador;
 	private String nombreFoto;
-	@OneToMany(mappedBy = "idPacientes", targetEntity = RelacionAlergiaPaciente.class, cascade = CascadeType.ALL)
-	private List<RelacionAlergiaPaciente> alergia = new ArrayList<>();
+	private String alergias;
 	@OneToMany(mappedBy = "idPaciente", targetEntity = RelacionPadecimientoPaciente.class, cascade = CascadeType.ALL)
 	private List<RelacionPadecimientoPaciente> padecimientos;
 
@@ -53,11 +51,11 @@ public class Paciente extends Persona {
 		this.padecimientos = padecimientos;
 	}
 
-	public List<RelacionAlergiaPaciente> getAlergia() {
-		return alergia;
+	public String getAlergias() {
+		return alergias;
 	}
 
-	public void setAlergia(List<RelacionAlergiaPaciente> alergia) {
-		this.alergia = alergia;
+	public void setAlergias(String alergias) {
+		this.alergias = alergias;
 	}
 }
