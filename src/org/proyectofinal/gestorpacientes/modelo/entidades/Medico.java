@@ -1,4 +1,4 @@
-package org.proyectofinal.gestorpacientes.modelo;
+package org.proyectofinal.gestorpacientes.modelo.entidades;
 
 import java.util.ArrayList;
 import java.util.List;

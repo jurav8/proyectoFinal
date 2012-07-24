@@ -1,4 +1,4 @@
-package org.proyectofinal.gestorpacientes.modelo;
+package org.proyectofinal.gestorpacientes.modelo.entidades;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -16,8 +16,8 @@ public class Paciente extends Persona {
 	private int fumador;
 	private String nombreFoto;
 	private String alergias;
-	@OneToMany(mappedBy = "idPaciente", targetEntity = RelacionPadecimientoPaciente.class, cascade = CascadeType.ALL)
-	private List<RelacionPadecimientoPaciente> padecimientos;
+	@OneToMany(mappedBy = "idPaciente", targetEntity = Recetas.class, cascade = CascadeType.ALL)
+	private List<Recetas> receta;
 
 	public GregorianCalendar getFechaNacimiento() {
 		return fechaNacimiento;
@@ -43,19 +43,19 @@ public class Paciente extends Persona {
 		this.nombreFoto = nombreFoto;
 	}
 
-	public List<RelacionPadecimientoPaciente> getPadecimientos() {
-		return padecimientos;
-	}
-
-	public void setPadecimientos(List<RelacionPadecimientoPaciente> padecimientos) {
-		this.padecimientos = padecimientos;
-	}
-
 	public String getAlergias() {
 		return alergias;
 	}
 
 	public void setAlergias(String alergias) {
 		this.alergias = alergias;
+	}
+
+	public List<Recetas> getRecetas() {
+		return receta;
+	}
+
+	public void setRecetas(List<Recetas> receta) {
+		this.receta = receta;
 	}
 }

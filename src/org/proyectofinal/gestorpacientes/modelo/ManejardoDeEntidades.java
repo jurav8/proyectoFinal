@@ -1,4 +1,4 @@
-package org.proyectofinal.gestorpacientes.controler;
+package org.proyectofinal.gestorpacientes.modelo;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -10,28 +10,28 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
-import org.proyectofinal.gestorpacientes.modelo.Asistentes;
-import org.proyectofinal.gestorpacientes.modelo.Citas;
-import org.proyectofinal.gestorpacientes.modelo.Especialidad;
-import org.proyectofinal.gestorpacientes.modelo.Medico;
-import org.proyectofinal.gestorpacientes.modelo.Paciente;
-import org.proyectofinal.gestorpacientes.modelo.Padecimientos;
-import org.proyectofinal.gestorpacientes.modelo.Persona;
-import org.proyectofinal.gestorpacientes.modelo.PruebaDeLaboratorio;
-import org.proyectofinal.gestorpacientes.modelo.Recetas;
-import org.proyectofinal.gestorpacientes.modelo.RelacionEspecialidadMedico;
 import org.proyectofinal.gestorpacientes.modelo.RelacionPadecimientoPaciente;
-import org.proyectofinal.gestorpacientes.modelo.ResultadoDeLaboratorio;
-import org.proyectofinal.gestorpacientes.modelo.Usuario;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Asistentes;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Especialidad;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Padecimientos;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Persona;
+import org.proyectofinal.gestorpacientes.modelo.entidades.PruebaDeLaboratorio;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Recetas;
+import org.proyectofinal.gestorpacientes.modelo.entidades.RelacionEspecialidadMedico;
+import org.proyectofinal.gestorpacientes.modelo.entidades.ResultadoDeLaboratorio;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Usuario;
 
-public class Controller {
+public class ManejardoDeEntidades {
 
-	private static Controller instancia;
+	private static ManejardoDeEntidades instancia;
 	private AnnotationConfiguration config;
 	private SessionFactory factory;
 	private Session session;
 
-	private Controller(Boolean script, Boolean export) {
+	private ManejardoDeEntidades(Boolean script, Boolean export) {
 
 		config = new AnnotationConfiguration();
 		config.addAnnotatedClass(Asistentes.class);
@@ -46,7 +46,6 @@ public class Controller {
 		config.addAnnotatedClass(ResultadoDeLaboratorio.class);
 		config.addAnnotatedClass(Usuario.class);
 		config.addAnnotatedClass(RelacionEspecialidadMedico.class);
-		config.addAnnotatedClass(RelacionPadecimientoPaciente.class);
 		config.configure("hibernate.cfg.xml");
 
 		new SchemaExport(config).create(script, export);
@@ -55,9 +54,9 @@ public class Controller {
 		session = factory.openSession();
 	}
 
-	public static Controller getEnlace(Boolean script, Boolean export) {
+	public static ManejardoDeEntidades getEnlace(Boolean script, Boolean export) {
 		if (instancia == null)
-			instancia = new Controller(script, export);
+			instancia = new ManejardoDeEntidades(script, export);
 
 		return instancia;
 	}
@@ -131,24 +130,6 @@ public class Controller {
 		session.getTransaction().commit();
 	}
 
-	public void agregarPadecimientoPaciente(Paciente paciente,
-			ArrayList<Padecimientos> padecimiento) {
-
-		ArrayList<RelacionPadecimientoPaciente> padecimientosDePaciente = new ArrayList<>();
-
-		for (Padecimientos relacion : padecimiento) {
-			RelacionPadecimientoPaciente relacionPadecimientoPaciente = new RelacionPadecimientoPaciente();
-			relacionPadecimientoPaciente.setIdPadeciemiento(relacion);
-			relacionPadecimientoPaciente.setIdPaciente(paciente);
-			padecimientosDePaciente.add(relacionPadecimientoPaciente);
-			session.save(relacionPadecimientoPaciente);
-		}
-		paciente.setPadecimientos(padecimientosDePaciente);
-
-		session.update(paciente);
-		session.getTransaction().commit();
-	}
-
 	public void crearPadecimiento(String nombre) {
 
 		session.beginTransaction().begin();
@@ -213,11 +194,23 @@ public class Controller {
 			Padecimientos idPadecimientos) {
 
 		session.beginTransaction().begin();
+		ArrayList<Recetas> recetas = null;
 
 		Recetas receta = new Recetas(medicamentos);
 		receta.setIdPadecimientos(idPadecimientos);
 		receta.setIdPaciente(idPaciente);
 
+		if (idPaciente.getRecetas().size() > 0) {
+
+			idPaciente.getRecetas().add(receta);
+
+		} else {
+			recetas = new ArrayList<>();
+			recetas.add(receta);
+			idPaciente.setRecetas(recetas);
+		}
+
+		session.update(idPaciente);
 		session.save(receta);
 		session.getTransaction().commit();
 	}

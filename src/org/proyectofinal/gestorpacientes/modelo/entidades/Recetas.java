@@ -1,9 +1,10 @@
-package org.proyectofinal.gestorpacientes.modelo;
+package org.proyectofinal.gestorpacientes.modelo.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +20,7 @@ public class Recetas {
 	@OneToOne
 	@JoinColumn(name = "padecimiento_id")
 	private Padecimientos idPadecimientos;
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "paciente_id")
 	private Paciente idPaciente;
 	

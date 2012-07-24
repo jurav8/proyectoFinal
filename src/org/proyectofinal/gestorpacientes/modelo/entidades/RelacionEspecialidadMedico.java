@@ -1,4 +1,4 @@
-package org.proyectofinal.gestorpacientes.modelo;
+package org.proyectofinal.gestorpacientes.modelo.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
