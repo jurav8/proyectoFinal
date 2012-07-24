@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
+@NamedQuery(name = "Paciente.getAll", query = "from Paciente")
 @Table(name = "Paciente")
 public class Paciente extends Persona {
 

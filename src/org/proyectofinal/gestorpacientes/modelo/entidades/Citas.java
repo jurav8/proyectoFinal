@@ -7,10 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Citas.getAll", query = "from Citas")
+@Table(name = "Citas")
 public class Citas {
 	
 	@Id
