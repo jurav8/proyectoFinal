@@ -10,7 +10,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
-import org.proyectofinal.gestorpacientes.modelo.RelacionPadecimientoPaciente;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Asistentes;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Especialidad;
@@ -64,7 +63,7 @@ public class ManejardoDeEntidades {
 	public void crearMedico(String nombre, String apellido,
 			String telefonoCasa, String telefonoCelular, String direccion,
 			String cedula, Usuario usuario,
-			ArrayList<Especialidad> especialidades) {
+			List<Especialidad> especialidades) {
 
 		session.beginTransaction().begin();
 
@@ -77,7 +76,7 @@ public class ManejardoDeEntidades {
 		medico.setTelefonoCelular(telefonoCelular);
 		medico.setUsuario(usuario);
 
-		ArrayList<RelacionEspecialidadMedico> relacion = new ArrayList<>();
+		List<RelacionEspecialidadMedico> relacion = new ArrayList<>();
 
 		for (Especialidad especialidad : especialidades) {
 
@@ -279,5 +278,22 @@ public class ManejardoDeEntidades {
 		session.getTransaction().commit();
 		return medicos;
 	}
+
+	public List<Paciente> getPacientes() {
+		session.beginTransaction().begin();
+		Query q = session.getNamedQuery("Paciente.getAll");
+		List pacientes = q.list();
+		session.getTransaction().commit();
+		return pacientes;
+	}
+	
+	public List<Citas> getCitas() {
+		session.beginTransaction().begin();
+		Query q = session.getNamedQuery("Citas.getAll");
+		List citas = q.list();
+		session.getTransaction().commit();
+		return citas;
+	}
+
 
 }
