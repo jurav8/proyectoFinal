@@ -3,11 +3,16 @@ package org.proyectofinal.gestorpacientes.vista;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -36,6 +41,7 @@ public class VentanaPadecimiento extends JDialog{
 	private JButton btnAgregar;
 	private JButton btnEditar;
 	private JButton btnBorrar;
+	private TableRowSorter<TableModel> modeloOrdenado;
 	
 	public VentanaPadecimiento(Frame padre, boolean modal) {
 		super(padre,modal);
@@ -85,6 +91,17 @@ public class VentanaPadecimiento extends JDialog{
 		textField.setBounds(87, 23, 195, 23);
 		getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		textField.addKeyListener(new KeyAdapter() {
+
+			@Override
+		  	public void keyReleased(KeyEvent arg0) {
+		  		//Filtro para el buscador
+		  		modeloOrdenado=new TableRowSorter<TableModel>(dm);
+				table.setRowSorter(modeloOrdenado);
+				modeloOrdenado.setRowFilter(RowFilter.regexFilter(textField.getText(),0,1));				
+		  	}
+		  });
 		
 		JLabel Buscar = new JLabel("Buscar");
 		Buscar.setIcon(new ImageIcon(VentanaPadecimiento.class.getResource("/Imagenes/icons/search-icon.png")));

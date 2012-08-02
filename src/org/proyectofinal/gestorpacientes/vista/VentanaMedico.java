@@ -3,11 +3,17 @@ package org.proyectofinal.gestorpacientes.vista;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -30,6 +36,7 @@ public class VentanaMedico extends JDialog{
 	private ControladorVM cvp;
 	private FabricaDeModelos fabricaM;
 	private Frame padre;
+ 	private TableRowSorter<TableModel> modeloOrdenado;
 	
 	public VentanaMedico(Frame padre, boolean modal) {
 		super(padre,modal);
@@ -70,6 +77,17 @@ public class VentanaMedico extends JDialog{
 		textField.setBounds(97, 23, 195, 23);
 		getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		textField.addKeyListener(new KeyAdapter() {
+
+			@Override
+		  	public void keyReleased(KeyEvent arg0) {
+		  		//Filtro para el buscador
+		  		modeloOrdenado=new TableRowSorter<TableModel>(dm);
+				table.setRowSorter(modeloOrdenado);
+				modeloOrdenado.setRowFilter(RowFilter.regexFilter(textField.getText(),1,2,3));				
+		  	}
+		  });
 		
 		JLabel Buscar = new JLabel("Buscar");
 		Buscar.setIcon(new ImageIcon(VentanaMedico.class.getResource("/Imagenes/icons/search-icon.png")));

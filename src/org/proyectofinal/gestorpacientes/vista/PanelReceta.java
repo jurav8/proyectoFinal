@@ -456,7 +456,7 @@ public class PanelReceta extends Panel {
 		return idPadecimiento;
 	}
 
-	private JButton getImprimir() {
+	public JButton getImprimir() {
 		if (imprimir == null) {
 			imprimir = new JButton("Imprimir");
 			imprimir.setIcon(new ImageIcon(PanelReceta.class
