@@ -1,6 +1,8 @@
 package org.proyectofinal.gestorpacientes.vista;
 
 
+import java.awt.Frame;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,6 +14,10 @@ import javax.swing.table.TableRowSorter;
 
 public class Panel extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected JButton nuevo;
 	protected JButton eliminar;
 	protected JButton editar;
@@ -21,6 +27,15 @@ public class Panel extends JPanel{
 	protected DefaultTableModel tablaPorDefecto;
 	protected TableRowSorter<TableModel> order;
 	protected  String [] titulo;
+    private Frame padre;
+	
+	public Frame getPadre() {
+		return padre;
+	}
+
+	public void setPadre(Frame padre) {
+		this.padre = padre;
+	}
 	
 	protected Panel(){
 		
@@ -75,26 +90,27 @@ public class Panel extends JPanel{
 	*		JScrollPane de la tabla
 	******************************************************************/
 	
-	public JScrollPane getPanelTabla(String [] titulo){
+	public JScrollPane getPanelTabla(){
 		if(panelTabla == null){
-			panelTabla = new JScrollPane(getTabla(titulo));
+			panelTabla = new JScrollPane(getTabla());
 		}
 		return panelTabla;
 	}
 	/****************************************************************
  	* 		JTable Tabla
  	*****************************************************************/
-	public JTable getTabla(String [] titulo){
+	public JTable getTabla(){
 		if(tabla == null){
-			tabla = new JTable(getTablaPorDefecto(titulo));
+			tabla = new JTable(getTablaPorDefecto());
 			tabla.setSize(180, 40);
+			tabla.setCellSelectionEnabled(false);
 		}
 		return tabla;
 	}
 	/****************************************************************
  	* 		Default Model de la tabla
  	*****************************************************************/
-	public DefaultTableModel getTablaPorDefecto(String [] titulo){
+	public DefaultTableModel getTablaPorDefecto(){
 		if(tablaPorDefecto == null){
 			tablaPorDefecto = new DefaultTableModel(null, titulo);
 		}
@@ -103,10 +119,24 @@ public class Panel extends JPanel{
 	/***************************************************************
 	 * Metodos utilitarios
 	 * *************************************************************/
-	protected JButton cambarImangen(JButton boton, String url){
+	@SuppressWarnings("deprecation")
+	protected JButton cambiarImangen(JButton boton, String url){
 		boton.setIcon(new ImageIcon(Panel.class.getResource(url)));
 		boton.setMargin(insets());
 		boton.setBorderPainted(false);
 		return boton;
+	}
+	
+	
+	@SuppressWarnings("unused")
+	protected void ocultaColumnas(JTable tabla, int columna[])
+	{
+	  for(int i=0;i<columna.length;i++)
+	  {
+	       tabla.getColumnModel().getColumn(columna[i]).setMaxWidth(0);
+	       tabla.getColumnModel().getColumn(columna[i]).setMinWidth(0);
+	       tabla.getTableHeader().getColumnModel().getColumn(columna[i]).setMaxWidth(0);
+	       tabla.getTableHeader().getColumnModel().getColumn(columna[i]).setMinWidth(0);
+	  }
 	}
 }

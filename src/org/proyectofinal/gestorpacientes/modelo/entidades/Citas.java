@@ -1,5 +1,6 @@
 package org.proyectofinal.gestorpacientes.modelo.entidades;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class Citas {
 	@GenericGenerator(name="citas" , strategy="increment")
 	@GeneratedValue(generator="citas")
 	private int idCitas;
-	private GregorianCalendar fecha;
+	private Date fecha;
 	private String hora;
 	private String causa;
 	@OneToOne
@@ -34,7 +35,7 @@ public class Citas {
 	public int getIdCitas() {
 		return idCitas;
 	}
-	public GregorianCalendar getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 	public String getHora() {
@@ -46,7 +47,7 @@ public class Citas {
 	public void setIdCitas(int idCitas) {
 		this.idCitas = idCitas;
 	}
-	public void setFecha(GregorianCalendar fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 	public void setHora(String hora) {
