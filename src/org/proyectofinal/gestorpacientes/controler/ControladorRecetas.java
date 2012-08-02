@@ -45,10 +45,12 @@ public class ControladorRecetas extends AbstractAction {
 	public void init() {
 		// TODO Auto-generated method stub
 		llenarTabla();
+		vista.getImprimir().setActionCommand("Imprimir");
 		vista.getNuevo().setActionCommand("Nuevo");
 		vista.getGuardar().setActionCommand("Guardar");
 		vista.getEliminar().setActionCommand("Eliminar");
 		vista.getEditar().setActionCommand("Editar");
+		vista.getImprimir().addActionListener(this);
 		vista.getEditar().addActionListener(this);
 		vista.getGuardar().addActionListener(this);
 		vista.getEliminar().addActionListener(this);
@@ -94,6 +96,10 @@ public class ControladorRecetas extends AbstractAction {
 			vista.getPaciente().setText("");
 			vista.getpadecimiento().setText("");
 			vista.getMedicamento().setText("");
+		}
+		
+		if(comando.equals("Imprimir")){
+			
 		}
 	}
 

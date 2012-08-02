@@ -27,6 +27,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import java.text.ParseException;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class PanelPaciente extends Panel {
@@ -46,7 +48,7 @@ public class PanelPaciente extends Panel {
 	private JLabel lblAlergia;
 	private JLabel lblFumador;
 	private JTextArea alergia;
-	private String ruta;
+	private String ruta="/Imagenes/icons/patient-icongrand.png";
 	private JTextField celular;
 	private JLabel foto;
 	private MaskFormatter mascaraTel;
@@ -113,12 +115,11 @@ public class PanelPaciente extends Panel {
 				/*getFecha().setText(
 						getTablaPorDefecto().getValueAt(
 								getTabla().getSelectedRow(), 9).toString());*/
-				new LectorDeArchivos(getMe()).cargar(getFoto(), getTablaPorDefecto().getValueAt(
-						getTabla().getSelectedRow(), 10).toString());
+					new LectorDeArchivos(getMe()).cargar(getFoto(), getTablaPorDefecto().getValueAt(
+							getTabla().getSelectedRow(), 10).toString());	
 				
-				
-			}
-		});
+			
+			}});
 		
 	
 		try {
@@ -443,6 +444,8 @@ public class PanelPaciente extends Panel {
 	public JLabel getFoto() {
 		if (foto == null) {
 			foto = new JLabel("");
+			foto.setHorizontalAlignment(SwingConstants.CENTER);
+			foto.setIcon(new ImageIcon(PanelPaciente.class.getResource(ruta)));
 			foto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			foto.addMouseListener(new LectorDeArchivos(getMe()));
 			foto.setBorder(new TitledBorder(null, "",

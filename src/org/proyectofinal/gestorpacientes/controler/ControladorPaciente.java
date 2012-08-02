@@ -58,7 +58,7 @@ public class ControladorPaciente extends AbstractAction {
 		paciente.setFumador(vista.getFumador().getSelectedIndex());
 		paciente.setAlergias(vista.getAlergia().getText());
 		paciente.setNombreFoto(vista.getRuta());
-
+		
 		if (comando.equals("Guardar")) {
 			modelo.crear(paciente);
 			llenarTabla();
@@ -92,8 +92,6 @@ public class ControladorPaciente extends AbstractAction {
 			vista.getCelular().setText("");
 			vista.getFumador().setSelectedIndex(0);
 			vista.getAlergia().setText("");
-			vista.getFoto().setIcon(new ImageIcon(PanelPaciente.class
-					.getResource("/Imagenes/icons/Search-Male-User-icon.png")));
 		}
 
 		
