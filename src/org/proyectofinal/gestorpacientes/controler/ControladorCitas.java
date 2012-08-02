@@ -1,17 +1,17 @@
 package org.proyectofinal.gestorpacientes.controler;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
-import org.proyectofinal.gestorpacientes.modelo.ManejardoDeEntidades;
+import org.proyectofinal.gestorpacientes.modelo.Modelo;
+import org.proyectofinal.gestorpacientes.modelo.ModeloCita;
+import org.proyectofinal.gestorpacientes.modelo.ModeloMedico;
+import org.proyectofinal.gestorpacientes.modelo.ModeloPaciente;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
-import org.proyectofinal.gestorpacientes.modelo.entidades.Especialidad;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
-import org.proyectofinal.gestorpacientes.modelo.entidades.Usuario;
+import org.proyectofinal.gestorpacientes.vista.Panel;
 import org.proyectofinal.gestorpacientes.vista.PanelCita;
 
 public class ControladorCitas extends AbstractAction {
@@ -20,56 +20,92 @@ public class ControladorCitas extends AbstractAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	private PanelCita vista;
-	private ManejardoDeEntidades modelo;
+	private ModeloCita modelo;
+	private ModeloPaciente modeloP;
+	private ModeloMedico modeloM;
+	private Citas cita;
 
-	public ControladorCitas(PanelCita vista, ManejardoDeEntidades modelo) {
+	public ControladorCitas(Panel vista, Modelo modelo) {
 		super();
-		this.vista = vista;
-		this.modelo = modelo;
+		this.vista = (PanelCita) vista;
+		this.modelo = (ModeloCita) modelo;
 		init();
-		llenarTabla();
 	}
 
 	public void init() {
 		// TODO Auto-generated method stub
+		llenarTabla();
 		vista.getNuevo().setActionCommand("Nuevo");
-		vista.getEditar().setActionCommand("Guardar");// el boton Guardar no se
-														// ve, preguntar a Joel
-		vista.getEditar().addActionListener(this);// tuve que hacerlo con el
-													// editar por motivos de
-													// prueba mientras tanto
-
+		vista.getGuardar().setActionCommand("Guardar");
+		vista.getEliminar().setActionCommand("Eliminar");
+		vista.getEditar().setActionCommand("Editar");
+		vista.getEditar().addActionListener(this);
+		vista.getGuardar().addActionListener(this);
+		vista.getEliminar().addActionListener(this);
+		vista.getNuevo().addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String comando = e.getActionCommand();		
-		Medico medico = modelo.consultarMedico(1);
-		List<Especialidad> lista = new ArrayList<Especialidad>();
-		lista.add(modelo.consultarEspecialidad(12));
-		ManejardoDeEntidades.getEnlace(false,false).crearMedico("juan", "pellerano", "809-590-2939", "809-387-3242",
-				"La caleta, boca chica no.22", "001-9273893-1", new Usuario(
-						"perensejo", "1234"), lista);
+		String comando = e.getActionCommand();
+		cita = new Citas();
+		modeloP = ModeloPaciente.getInstancia(false, false);
+		modeloM = ModeloMedico.getInstancia(false, false);
+		cita.setCausa(vista.getCausa().getText());
+		cita.setFecha(vista.getFecha().getDate());
+		cita.setHora(vista.getHoras().getValue() + ":"
+				+ vista.getMinutos().getValue() + " "
+				+ vista.getAmPm().getSelectedItem().toString());
+		cita.setIdPaciente((Paciente) modeloP.consultar(Integer.parseInt(vista
+				.getIdPaciente().getText())));
+		cita.setIdMedico((Medico) modeloM.consultar(Integer.parseInt(vista
+				.getIdMedico().getText())));
 
 		if (comando.equals("Guardar")) {
-			modelo.crearCitas(null, vista.getHora().getText(), vista.getCausa()
-					.getText(), medico, modelo.consultarPaciente(1));
+			modelo.crear(cita);
+			llenarTabla();
 		}
-		llenarTabla();
 
+		if (comando.equals("Eliminar")) {
+
+			int confirmacion = JOptionPane.showConfirmDialog(null,
+					"¿Esta seguro de que desea eliminar esta cita?");
+			if (confirmacion == 0) {
+				modelo.eliminar(Integer.valueOf(vista.getTablaPorDefecto()
+						.getValueAt(vista.getTabla().getSelectedRow(), 0)
+						.toString()));
+				llenarTabla();
+
+			}
+		}
+		if (comando.equals("Editar")) {
+			cita.setIdCitas(Integer.parseInt(vista.getIdCita().getText()));
+			modelo.modificar(cita);
+			llenarTabla();
+		}
+
+		if (comando.equals("Nuevo")) {
+			vista.getCausa().setText("");
+			vista.getPaciente().setText("");
+			vista.getMedico().setText("");
+			vista.getHoras().setValue(0);
+			vista.getMinutos().setValue(0);
+			vista.getAmPm().setSelectedIndex(0);
+			// vista.getFecha().setText("");
+			vista.getCausa().setText("");
+		}
 	}
 
 	public void llenarTabla() {
-		vista.getTablaPorDefecto(
-				new String[] { "Paciente", "Medico", "Fecha", "Hora", "Causa" })
-				.setNumRows(0);
-		for (Citas cita : modelo.getCitas()) {
-			vista.getTablaPorDefecto(
-					new String[] { "Paciente", "Medico", "Fecha", "Hora",
-							"Causa" })
-					.addRow((new Object[] { cita.getIdPaciente(),
-							cita.getIdMedico(), cita.getFecha(),
-							cita.getHora(), cita.getCausa(), }));
+		vista.getTablaPorDefecto().setNumRows(0);
+		for (Citas cita : modelo.desplegar()) {
+			vista.getTablaPorDefecto().addRow(
+					(new Object[] { cita.getIdCitas(),
+							cita.getIdMedico().getId(),
+							cita.getIdPaciente().getId(),
+							cita.getIdPaciente().getNombre(),
+							cita.getIdMedico().getNombre(), cita.getFecha(),
+							cita.getHora(), cita.getCausa() }));
 		}
 	}
 

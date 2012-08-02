@@ -1,6 +1,7 @@
 package org.proyectofinal.gestorpacientes.modelo.entidades;
 
-import java.util.GregorianCalendar;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,14 +16,14 @@ import org.hibernate.annotations.NamedQuery;
 @Table(name = "Paciente")
 public class Paciente extends Persona {
 
-	private GregorianCalendar fechaNacimiento;
+	private Date fechaNacimiento;
 	private int fumador;
 	private String nombreFoto;
 	private String alergias;
 	@OneToMany(mappedBy = "idPaciente", targetEntity = Recetas.class, cascade = CascadeType.ALL)
 	private List<Recetas> receta;
 
-	public GregorianCalendar getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -34,8 +35,8 @@ public class Paciente extends Persona {
 		return nombreFoto;
 	}
 
-	public void setFechaNacimiento(GregorianCalendar fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFechaNacimiento(Date date) {
+		this.fechaNacimiento = date;
 	}
 
 	public void setFumador(int fumador) {

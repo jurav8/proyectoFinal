@@ -8,8 +8,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Recetas.getAll", query = "from Recetas")
 public class Recetas {
 	
 	@Id
@@ -23,11 +25,6 @@ public class Recetas {
 	@ManyToOne
 	@JoinColumn(name = "paciente_id")
 	private Paciente idPaciente;
-	
-	public Recetas(String medicamentos) {
-		super();
-		this.medicamentos = medicamentos;
-	}
 	
 	public int getIdReceta() {
 		return idReceta;

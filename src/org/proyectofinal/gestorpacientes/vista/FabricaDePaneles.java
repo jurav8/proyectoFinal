@@ -1,12 +1,10 @@
 package org.proyectofinal.gestorpacientes.vista;
 
-import javax.swing.JPanel;
-
 public class FabricaDePaneles {
 
-	private JPanel panel;
+	private Panel panel;
 	
-	public JPanel getPanel(String peticion){
+	public Panel getPanel(String peticion){
 		panel=null;
 		if(peticion.equals("Usuarios")){
 			panel=new PanelUsuario();
@@ -18,6 +16,9 @@ public class FabricaDePaneles {
 		
 		else if(peticion.equals("Citas")){
 			panel=PanelCita.getInstancia();
+		}
+		else if(peticion.equals("Recetas")){
+			panel=PanelReceta.getInstancia();
 		}
 		return panel;
 		
