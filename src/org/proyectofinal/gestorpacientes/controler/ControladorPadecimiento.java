@@ -51,7 +51,8 @@ public class ControladorPadecimiento extends AbstractAction {
 		String comando = e.getActionCommand();
 
 		padecimiento = new Padecimientos();
-		padecimiento.setIdPadecimiento(Integer.parseInt(vista.getCodigo().getText()));
+		if(!vista.getCodigo().getText().equals(""))
+			padecimiento.setIdPadecimiento(Integer.parseInt(vista.getCodigo().getText()));
 		padecimiento.setNombre(vista.getNombres().getText());
 
 		if (comando.equals("Seleccionar")) {
@@ -89,7 +90,7 @@ public class ControladorPadecimiento extends AbstractAction {
 
 	public void llenarTabla() {
 		vista.getDm().setNumRows(0);
-		for (Padecimientos padecimiento : modelo.desplegar()) {
+		for (Padecimientos padecimiento : modelo.getListado()) {
 			vista.getDm().addRow(
 					(new Object[] { padecimiento.getIdPadecimiento(),
 							padecimiento.getNombre() }));

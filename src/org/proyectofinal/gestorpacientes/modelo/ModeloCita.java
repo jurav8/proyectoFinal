@@ -5,12 +5,13 @@ import java.util.List;
 import org.hibernate.Query;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
 
-public class ModeloCita extends Modelo{
+public class ModeloCita implements Modelo{
 
 	private static ModeloCita instancia;
+	private Manejador manejador;
 
 	private ModeloCita(Boolean script, Boolean export) {
-		super(script, export);
+		manejador = Manejador.getInstancia(script, export);
 	}
 
 	public static ModeloCita getInstancia(Boolean script, Boolean export) {
@@ -21,41 +22,48 @@ public class ModeloCita extends Modelo{
 	}
 
 	public void eliminar(int id) {
-		session.beginTransaction().begin();
-		Object cita = session.get(Citas.class, id);
-		session.delete(cita);
-		session.getTransaction().commit();
+		manejador.getSession().beginTransaction().begin();
+		Object cita = manejador.getSession().get(Citas.class, id);
+		manejador.getSession().delete(cita);
+		manejador.getSession().getTransaction().commit();
 	}
 
 	@Override
-	public List<Citas> desplegar() {
-		session.beginTransaction().begin();
-		Query q = session.getNamedQuery("Citas.getAll");
+	public List<Citas> getListado() {
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador.getSession().getNamedQuery("Citas.getAll");
 		List citas = q.list();
-		session.getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return citas;
 	}
 
 	@Override
 	public Object consultar(int id) {
-		session.beginTransaction().begin();
-		return (Citas) session.get(Citas.class, id);
+		manejador.getSession().beginTransaction().begin();
+		return (Citas) manejador.getSession().get(Citas.class, id);
 	}
 
 	@Override
 	public void modificar(Object obj) {
 	
-		session.beginTransaction().begin();
+		manejador.getSession().beginTransaction().begin();
 
-		Citas citaOld = (Citas) session.get(Citas.class,((Citas) obj).getIdCitas());
+		Citas citaOld = (Citas) manejador.getSession().get(Citas.class,((Citas) obj).getIdCitas());
 		citaOld.setCausa(((Citas) obj).getCausa());
 		citaOld.setFecha(((Citas) obj).getFecha());
 		citaOld.setHora(((Citas) obj).getHora());
 		citaOld.setIdPaciente(((Citas) obj).getIdPaciente());	
 		citaOld.setIdMedico(((Citas) obj).getIdMedico());
-		session.update(citaOld);
-		session.getTransaction().commit();	
+		manejador.getSession().update(citaOld);
+		manejador.getSession().getTransaction().commit();	
 		
+	}
+
+	@Override
+	public void crear(Object obj) {
+		manejador.getSession().beginTransaction().begin();
+		manejador.getSession().save(obj);
+		manejador.getSession().getTransaction().commit();
 	}
 
 }

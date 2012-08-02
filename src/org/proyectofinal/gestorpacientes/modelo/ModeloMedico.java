@@ -6,11 +6,13 @@ import org.hibernate.Query;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
 
-public class ModeloMedico extends Modelo {
+public class ModeloMedico implements Modelo {
 	private static ModeloMedico instancia;
+	private Manejador manejador;
 
+	
 	private ModeloMedico(Boolean script, Boolean export) {
-		super(script, export);
+		manejador = Manejador.getInstancia(script, export);
 	}
 
 	public static ModeloMedico getInstancia(Boolean script, Boolean export) {
@@ -22,35 +24,34 @@ public class ModeloMedico extends Modelo {
 
 	@Override
 	public void eliminar(int id) {
-		session.beginTransaction().begin();
-		Object medico = session.get(Medico.class, id);
-		session.delete(medico);
-		session.getTransaction().commit();
+		manejador.getSession().beginTransaction().begin();
+		Object medico = manejador.getSession().get(Medico.class, id);
+		manejador.getSession().delete(medico);
+		manejador.getSession().getTransaction().commit();
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	@Override
-	public List<Medico> desplegar() {
-		session.beginTransaction().begin();
-		Query q = session.getNamedQuery("Medico.getAll");
+	public List<Medico> getListado() {
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador.getSession().getNamedQuery("Medico.getAll");
 		@SuppressWarnings("rawtypes")
 		List medicos = q.list();
-		session.getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return medicos;
 	}
 
 	@Override
 	public Object consultar(int id) {
-		session.beginTransaction().begin();
-		return (Medico) session.get(Medico.class, id);
+		manejador.getSession().beginTransaction().begin();
+		return (Medico) manejador.getSession().get(Medico.class, id);
 	}
 
 	@Override
 	public void modificar(Object obj) {
 
-		session.beginTransaction().begin();
+		manejador.getSession().beginTransaction().begin();
 
-		Medico medicoOld = (Medico) session.get(Medico.class,
+		Medico medicoOld = (Medico) manejador.getSession().get(Medico.class,
 				((Paciente) obj).getId());
 		medicoOld.setNombre(((Medico) obj).getNombre());
 		medicoOld.setApellido(((Medico) obj).getApellido());
@@ -59,9 +60,17 @@ public class ModeloMedico extends Modelo {
 		medicoOld.setTelefonoCelular(((Medico) obj).getTelefonoCelular());
 		medicoOld.setUsuario(((Medico) obj).getUsuario());
 
-		session.update(medicoOld);
-		session.getTransaction().commit();
+		manejador.getSession().update(medicoOld);
+		manejador.getSession().getTransaction().commit();
 
 	}
+
+	@Override
+	public void crear(Object obj) {
+		manejador.getSession().beginTransaction().begin();
+		manejador.getSession().save(obj);
+		manejador.getSession().getTransaction().commit();
+	}
+
 
 }

@@ -99,7 +99,7 @@ public class ControladorPaciente extends AbstractAction {
 
 	public void llenarTabla() {
 		vista.getTablaPorDefecto().setNumRows(0);
-		for (Paciente paciente : modelo.desplegar()) {
+		for (Paciente paciente : modelo.getListado()) {
 				vista.getTablaPorDefecto().addRow((new Object[] { paciente.getId(),
 						paciente.getNombre(), paciente.getApellido(),
 						paciente.getTelefonoCasa(),

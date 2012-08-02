@@ -99,7 +99,7 @@ public class ControladorCitas extends AbstractAction {
 
 	public void llenarTabla() {
 		vista.getTablaPorDefecto().setNumRows(0);
-		for (Citas cita : modelo.desplegar()) {
+		for (Citas cita : modelo.getListado()) {
 			vista.getTablaPorDefecto().addRow(
 					(new Object[] { cita.getIdCitas(),
 							cita.getIdMedico().getId(),

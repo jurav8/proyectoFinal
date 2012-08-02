@@ -6,12 +6,13 @@ import org.hibernate.Query;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Padecimientos;
 
 
-public class ModeloPadecimiento extends Modelo{
+public class ModeloPadecimiento implements Modelo{
 
 	private static ModeloPadecimiento instancia;
+	private Manejador manejador;
 
 	private ModeloPadecimiento(Boolean script, Boolean export) {
-		super(script, export);
+		manejador = Manejador.getInstancia(script, export);
 	}
 
 	public static ModeloPadecimiento getInstancia(Boolean script, Boolean export) {
@@ -23,38 +24,47 @@ public class ModeloPadecimiento extends Modelo{
 
 	@Override
 	public void eliminar(int id) {
-		session.beginTransaction().begin();
-		Object padecimiento = session.get(Padecimientos.class, id);
-		session.delete(padecimiento);
-		session.getTransaction().commit();
+		
+		manejador.getSession().beginTransaction().begin();
+		Object padecimiento = manejador.getSession().get(Padecimientos.class, id);
+		manejador.getSession().delete(padecimiento);
+		manejador.getSession().getTransaction().commit();
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public List<Padecimientos> desplegar() {
-		session.beginTransaction().begin();
-		Query q = session.getNamedQuery("Padecimiento.getAll");
+	public List<Padecimientos> getListado() {
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador.getSession().getNamedQuery("Padecimiento.getAll");
 		@SuppressWarnings("rawtypes")
 		List padecimientos = q.list();
-		session.getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return padecimientos;
 	}
 
 	@Override
 	public Object consultar(int id) {
-		session.beginTransaction().begin();
-		return (Padecimientos) session.get(Padecimientos.class, id);
+		manejador.getSession().beginTransaction().begin();
+		return (Padecimientos) manejador.getSession().get(Padecimientos.class, id);
 	}
 
 	@Override
 	public void modificar(Object obj) {
 	
-		session.beginTransaction().begin();
+		manejador.getSession().beginTransaction().begin();
 
-		Padecimientos padecimientoOld = (Padecimientos) session.get(Padecimientos.class,((Padecimientos) obj).getIdPadecimiento());
+		Padecimientos padecimientoOld = (Padecimientos) manejador.getSession().get(Padecimientos.class,((Padecimientos) obj).getIdPadecimiento());
 		padecimientoOld.setNombre(((Padecimientos) obj).getNombre());
-		session.update(padecimientoOld);
-		session.getTransaction().commit();	
+		manejador.getSession().update(padecimientoOld);
+		manejador.getSession().getTransaction().commit();	
 		
 	}
+
+	@Override
+	public void crear(Object obj) {
+		manejador.getSession().beginTransaction().begin();
+		manejador.getSession().save(obj);
+		manejador.getSession().getTransaction().commit();
+	}
+
 }

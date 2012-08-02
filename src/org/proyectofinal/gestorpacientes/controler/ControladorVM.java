@@ -57,7 +57,7 @@ public class ControladorVM extends AbstractAction {
 
 	public void llenarTabla() {
 		vista.getDm().setNumRows(0);
-		for (Medico medico : modelo.desplegar()) {
+		for (Medico medico : modelo.getListado()) {
 			vista.getDm().addRow(
 					(new Object[] { medico.getId(), medico.getNombre(),
 							medico.getApellido(), medico.getCedula() }));

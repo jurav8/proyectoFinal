@@ -119,7 +119,7 @@ public class ControladorRecetas extends AbstractAction {
 
 	public void llenarTabla() {
 		vista.getTablaPorDefecto().setNumRows(0);
-		for (Recetas receta : modelo.desplegar()) {
+		for (Recetas receta : modelo.getListado()) {
 			vista.getTablaPorDefecto().addRow(
 					(new Object[] { receta.getIdReceta(),
 							receta.getIdPadecimientos().getIdPadecimiento(),

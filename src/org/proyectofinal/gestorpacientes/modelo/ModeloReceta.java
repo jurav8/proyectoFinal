@@ -6,12 +6,14 @@ import org.hibernate.Query;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Recetas;
 
-public class ModeloReceta extends Modelo{
+public class ModeloReceta implements Modelo{
 
 	private static ModeloReceta instancia;
+	private Manejador manejador;
+
 
 	private ModeloReceta(Boolean script, Boolean export) {
-		super(script, export);
+		manejador = Manejador.getInstancia(script, export);
 	}
 
 	public static ModeloReceta getInstancia(Boolean script, Boolean export) {
@@ -22,40 +24,48 @@ public class ModeloReceta extends Modelo{
 	}
 
 	public void eliminar(int id) {
-		session.beginTransaction().begin();
-		Object cita = session.get(Recetas.class, id);
-		session.delete(cita);
-		session.getTransaction().commit();
+		manejador.getSession().beginTransaction().begin();
+		Object cita = manejador.getSession().get(Recetas.class, id);
+		manejador.getSession().delete(cita);
+		manejador.getSession().getTransaction().commit();
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public List<Recetas> desplegar() {
-		session.beginTransaction().begin();
-		Query q = session.getNamedQuery("Recetas.getAll");
+	public List<Recetas> getListado() {
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador.getSession().getNamedQuery("Recetas.getAll");
 		@SuppressWarnings("rawtypes")
 		List recetas = q.list();
-		session.getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return recetas;
 	}
 
 	@Override
 	public Object consultar(int id) {
-		session.beginTransaction().begin();
-		return (Recetas) session.get(Recetas.class, id);
+		manejador.getSession().beginTransaction().begin();
+		return (Recetas) manejador.getSession().get(Recetas.class, id);
 	}
 
 	@Override
 	public void modificar(Object obj) {
 	
-		session.beginTransaction().begin();
+		manejador.getSession().beginTransaction().begin();
 
-		Recetas recetaOld = (Recetas) session.get(Recetas.class,((Recetas) obj).getIdReceta());
+		Recetas recetaOld = (Recetas) manejador.getSession().get(Recetas.class,((Recetas) obj).getIdReceta());
 		recetaOld.setIdPadecimientos(((Recetas) obj).getIdPadecimientos());
 		recetaOld.setMedicamentos(((Recetas) obj).getMedicamentos());
 		recetaOld.setIdPaciente(((Recetas) obj).getIdPaciente());
-		session.update(recetaOld);
-		session.getTransaction().commit();	
+		manejador.getSession().update(recetaOld);
+		manejador.getSession().getTransaction().commit();	
 		
 	}
+
+	@Override
+	public void crear(Object obj) {
+		manejador.getSession().beginTransaction().begin();
+		manejador.getSession().save(obj);
+		manejador.getSession().getTransaction().commit();
+	}
+
 }

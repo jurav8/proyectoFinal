@@ -6,27 +6,28 @@ import java.util.List;
 import org.hibernate.Query;
 
 public class ModeloEstadistica {
-	private static ModeloEstadistica instancia;
-	private ModeloCita modelo = ModeloCita.getInstancia(false, false);
-
-	private ModeloEstadistica() {
-
-	}
 	
-	public static ModeloEstadistica getInstancia(){
-		if(instancia==null)
-			instancia = new ModeloEstadistica();
+	private static ModeloEstadistica instancia;
+	private Manejador manejador;
+
+	private ModeloEstadistica(Manejador manejador) {
+		this.manejador = manejador;
+	}
+
+	public static ModeloEstadistica getInstancia(Manejador manejador) {
+		if (instancia == null)
+			instancia = new ModeloEstadistica(manejador);
 		return instancia;
 	}
 
 	public List getEstadisticaMedico() {
 
-		modelo.getSession().beginTransaction().begin();
-		Query q = modelo
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador
 				.getSession()
 				.createQuery(
 						"select count(medico_id) from Citas group by medico_id order by medico_id");
-		Query qu = modelo
+		Query qu = manejador
 				.getSession()
 				.createQuery(
 						"select medico from Citas group by medico_id order by medico_id");
@@ -42,17 +43,17 @@ public class ModeloEstadistica {
 			estadistica.add(es);
 		}
 
-		modelo.getSession().getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return estadistica;
 	}
 
 	public Object getEstadisticaPadecimiento() {
-		modelo.getSession().beginTransaction().begin();
-		Query q = modelo
+		manejador.getSession().beginTransaction().begin();
+		Query q = manejador
 				.getSession()
 				.createQuery(
 						"select count(nombre) as total from Padecimientos group by nombre order by nombre");
-		Query qu = modelo
+		Query qu = manejador
 				.getSession()
 				.createQuery(
 						"select nombre  as total from Padecimientos group by nombre order by nombre");
@@ -68,7 +69,7 @@ public class ModeloEstadistica {
 			estadistica.add(es);
 		}
 
-		modelo.getSession().getTransaction().commit();
+		manejador.getSession().getTransaction().commit();
 		return estadistica;
 	}
 
