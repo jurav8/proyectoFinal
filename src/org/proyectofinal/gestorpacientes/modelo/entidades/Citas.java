@@ -31,6 +31,7 @@ public class Citas {
 	@OneToOne
 	@JoinColumn(name = "medico_id")
 	private Medico idMedico;
+	private int medico;
 	
 	public int getIdCitas() {
 		return idCitas;
@@ -71,6 +72,12 @@ public class Citas {
 
 	public void setIdPaciente(Paciente idPaciente) {
 		this.idPaciente = idPaciente;
+	}
+	public int getMedico() {
+		return medico;
+	}
+	public void setMedico(int medico) {
+		this.medico = medico;
 	}
 	
 	

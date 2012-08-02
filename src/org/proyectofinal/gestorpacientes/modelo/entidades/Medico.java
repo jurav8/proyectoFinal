@@ -15,7 +15,7 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Medico.getAll", query = "from Medico")
-@Table(name = "medico")
+@Table(name = "medicos")
 public class Medico extends Persona {
 
 	@OneToOne

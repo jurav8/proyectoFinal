@@ -61,6 +61,10 @@ public abstract class Modelo {
 		session.getTransaction().commit();
 		
 	}
+    
+    public Session getSession(){
+    	return this.session;
+    }
 	
 	
 }

@@ -60,6 +60,7 @@ public class ControladorCitas extends AbstractAction {
 				.getIdPaciente().getText())));
 		cita.setIdMedico((Medico) modeloM.consultar(Integer.parseInt(vista
 				.getIdMedico().getText())));
+		cita.setMedico(Integer.parseInt(vista.getIdMedico().getText()));
 
 		if (comando.equals("Guardar")) {
 			modelo.crear(cita);

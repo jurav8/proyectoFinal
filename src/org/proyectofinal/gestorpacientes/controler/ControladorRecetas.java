@@ -1,12 +1,15 @@
 package org.proyectofinal.gestorpacientes.controler;
 
 import java.awt.event.ActionEvent;
+import java.awt.print.Book;
+import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.proyectofinal.gestorpacientes.modelo.Impresora;
 import org.proyectofinal.gestorpacientes.modelo.Modelo;
 import org.proyectofinal.gestorpacientes.modelo.ModeloCita;
 import org.proyectofinal.gestorpacientes.modelo.ModeloMedico;
@@ -99,6 +102,17 @@ public class ControladorRecetas extends AbstractAction {
 		}
 		
 		if(comando.equals("Imprimir")){
+			PrinterJob print = PrinterJob.getPrinterJob();
+			Book book = new Book();
+			book.append(new Impresora(modelo.consultar(1)), print.defaultPage());
+			print.setPageable(book);
+			if(print.printDialog()){
+				try{
+					print.print();
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
 			
 		}
 	}
