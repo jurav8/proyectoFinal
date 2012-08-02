@@ -7,8 +7,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Padecimiento.getAll", query = "from Padecimientos")
 public class Padecimientos {
 	
 	@Id

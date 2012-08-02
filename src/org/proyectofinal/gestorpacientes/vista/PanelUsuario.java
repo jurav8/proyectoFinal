@@ -93,43 +93,45 @@ public class PanelUsuario extends Panel {
 					.addGap(10)
 					.addComponent(getPerfil(), GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(55)
-					.addComponent(getLabel_4(), GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-					.addGap(43)
-					.addComponent(getCedula(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(108)
-					.addComponent(getLabel_1())
-					.addGap(26)
-					.addComponent(getCodigo(), GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-					.addGap(106)
-					.addComponent(lblClave)
-					.addGap(10)
-					.addComponent(getClave(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(49)
-					.addComponent(getLabel_3())
-					.addGap(48)
-					.addComponent(getScrollDireccion(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(35)
-					.addComponent(getEditarGuardar(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(57)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblConfirmarClave)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(15)
-							.addComponent(lblEspecialidad)))
-					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(getConfirmarClave(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(getEspecialidad(), GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE))
-					.addGap(10)
-					.addComponent(getMantenimientoEspecialidad(), GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(64)
 					.addComponent(getPanelContenedorTable(), GroupLayout.PREFERRED_SIZE, 797, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(688)
 					.addComponent(getNuevoEliminar(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(55)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(getLabel_3())
+							.addGap(42)
+							.addComponent(getScrollDireccion(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(35)
+							.addComponent(getEditarGuardar(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(57)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblConfirmarClave)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(15)
+									.addComponent(lblEspecialidad)))
+							.addGap(10)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(getConfirmarClave(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(getEspecialidad(), GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(getMantenimientoEspecialidad(), GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(getLabel_4(), GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+							.addGap(43)
+							.addComponent(getCedula(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(108)
+							.addComponent(getLabel_1())
+							.addGap(26)
+							.addComponent(getCodigo(), GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+							.addGap(106)
+							.addComponent(lblClave)
+							.addGap(10)
+							.addComponent(getClave(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -184,12 +186,6 @@ public class PanelUsuario extends Panel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(8)
-							.addComponent(getLabel_3()))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(13)
-							.addComponent(getScrollDireccion(), GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(8)
 							.addComponent(getEditarGuardar(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(8)
@@ -202,7 +198,12 @@ public class PanelUsuario extends Panel {
 							.addComponent(getEspecialidad(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(30)
-							.addComponent(getMantenimientoEspecialidad())))
+							.addComponent(getMantenimientoEspecialidad()))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(13)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(getLabel_3())
+								.addComponent(getScrollDireccion(), GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))))
 					.addGap(38)
 					.addComponent(getPanelContenedorTable(), GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE)
 					.addGap(17)
@@ -227,6 +228,7 @@ public class PanelUsuario extends Panel {
 		if(nombre == null){
 			nombre = new JTextField(15);
 			nombre.setName("nombre");
+			nombre.setEditable(false);
 		}
 		return nombre;
 	}
@@ -237,6 +239,7 @@ public class PanelUsuario extends Panel {
 		if(apellido == null){
 			apellido = new JTextField(15);
 			apellido.setName("apellido");
+			apellido.setEditable(false);
 		}
 		return apellido;
 	}
@@ -247,6 +250,7 @@ public class PanelUsuario extends Panel {
 		if(cedula == null){
 			cedula = new JTextField(15);
 			cedula.setName("cedula");
+			cedula.setEditable(false);
 		}
 		return cedula;
 	}
@@ -257,6 +261,7 @@ public class PanelUsuario extends Panel {
 		if(telefono == null){
 			telefono = new JTextField(15);
 			telefono.setName("telefono");
+			telefono.setEditable(false);
 		}
 		return telefono;
 	}
@@ -266,6 +271,7 @@ public class PanelUsuario extends Panel {
 	public JTextField getCelular(){
 		if(celular == null){
 			celular = new JTextField(15);
+			celular.setEditable(false);
 		}
 		return celular;
 	}
@@ -275,6 +281,7 @@ public class PanelUsuario extends Panel {
 	public JTextField getCodigo(){
 		if(codigo == null){
 			codigo = new JTextField(15);
+			codigo.setEditable(false);
 		}
 		return codigo;
 	}
@@ -296,7 +303,8 @@ public class PanelUsuario extends Panel {
 		if(direccion == null){
 			direccion = new JTextArea(2, 25);
 			direccion.setName("direccion");
-			direccion.setLineWrap(true);	
+			direccion.setLineWrap(true);
+			direccion.setEditable(false);
 		}
 		return direccion;
 	}
@@ -328,6 +336,7 @@ public class PanelUsuario extends Panel {
 		if(usuario == null){
 			usuario = new JTextField(17);
 			usuario.setName("usuario");
+			usuario.setEditable(false);
 		}
 		return usuario;
 	}
@@ -338,6 +347,7 @@ public class PanelUsuario extends Panel {
 		if(clave == null){
 			clave = new JTextField(17);
 			clave.setName("clave");
+			clave.setEditable(false);
 		}
 		return clave;
 	}
@@ -348,6 +358,7 @@ public class PanelUsuario extends Panel {
 		if(confirmarClave == null){
 			confirmarClave = new JTextField(17);
 			confirmarClave.setName("confirmarClave");
+			confirmarClave.setEditable(false);
 		}
 		return confirmarClave;
 	}
@@ -382,7 +393,7 @@ public class PanelUsuario extends Panel {
 		if(panelContenedorTabla == null){
 			panelContenedorTabla = new JPanel();
 			panelContenedorTabla.setLayout(new BorderLayout(0, 0));
-			panelContenedorTabla.add(getPanelTabla(new String []{"Nombre", "Apellido", "Telefono", "Cedula", "Direccion", "Especialidad"}), BorderLayout.CENTER);
+			panelContenedorTabla.add(getPanelTabla(), BorderLayout.CENTER);
 		}
 		return panelContenedorTabla;
 	}

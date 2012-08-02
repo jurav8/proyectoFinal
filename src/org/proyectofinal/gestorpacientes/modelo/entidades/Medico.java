@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
-@NamedQuery(name = "Medico.buscarMedicos", query = "from Medico")
+@NamedQuery(name = "Medico.getAll", query = "from Medico")
 @Table(name = "medico")
 public class Medico extends Persona {
 

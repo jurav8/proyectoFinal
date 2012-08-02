@@ -1,7 +1,6 @@
 package org.proyectofinal.gestorpacientes.vista;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,39 +9,27 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import com.l2fprod.common.swing.JTaskPane;
-import com.l2fprod.common.swing.JTaskPaneGroup;
-
-import com.l2fprod.common.swing.JButtonBar;
-import javax.swing.JButton;
 import com.l2fprod.common.swing.JOutlookBar;
 import javax.swing.JTabbedPane;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.Frame;
 import javax.swing.border.SoftBevelBorder;
 
-
 import org.proyectofinal.gestorpacientes.controler.ControladorCitas;
 import org.proyectofinal.gestorpacientes.controler.ControladorPaciente;
-import org.proyectofinal.gestorpacientes.modelo.ManejardoDeEntidades;
-
+import org.proyectofinal.gestorpacientes.controler.ControladorRecetas;
+import org.proyectofinal.gestorpacientes.modelo.FabricaDeModelos;
+import org.proyectofinal.gestorpacientes.modelo.Modelo;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -53,9 +40,12 @@ public class Administrador extends JFrame {
 	private JLabel Opt;
 	private JComboBox comboBox;
 	private JTextField textField;
-	private JPanel panelIn;
-	private JPanel panel;
-	private FabricaDePaneles fabrica;
+	private JPanel panel1;
+	private Panel panel;
+	private Modelo modelo;
+	private FabricaDePaneles fabricaP;
+	private FabricaDeModelos fabricaM;
+	private JLabel pacientes;
 
 	public Administrador() {
 		init();
@@ -63,7 +53,8 @@ public class Administrador extends JFrame {
 
 	public void init() {
 
-		fabrica = new FabricaDePaneles();
+		fabricaP = new FabricaDePaneles();
+		fabricaM=new FabricaDeModelos();
 		setTitle("Administrador");
 
 		setBackground(Color.WHITE);
@@ -102,34 +93,35 @@ public class Administrador extends JFrame {
 						mantenimientos, null);
 		mantenimientos.setLayout(null);
 
-		JLabel lblNewLabel_1 = new JLabel("Pacientes");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		pacientes = new JLabel("Pacientes");
+		pacientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				panelIn = fabrica.getPanel("Pacientes");
-				panelIn.setVisible(true);
-				agregaPanel(panelIn);
-				new ControladorPaciente((PanelPaciente) panelIn,
-						ManejardoDeEntidades.getEnlace(false, false));
-
+				panel = fabricaP.getPanel(pacientes.getText());
+				modelo= fabricaM.getModelo(pacientes.getText());
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+				new ControladorPaciente(panel,modelo);
 			}
 		});
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblNewLabel_1.setIcon(new ImageIcon(Administrador.class
+		pacientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		pacientes.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/patient-icon.png")));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(1, 28, 312, 24);
-		mantenimientos.add(lblNewLabel_1);
+		pacientes.setHorizontalAlignment(SwingConstants.CENTER);
+		pacientes.setBounds(1, 28, 312, 24);
+		mantenimientos.add(pacientes);
 
 		JLabel lblNewLabel_2 = new JLabel("Citas");
 		lblNewLabel_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				panelIn = fabrica.getPanel("Citas");
-				panelIn.setVisible(true);
-				agregaPanel(panelIn);
-				new ControladorCitas((PanelCita) panelIn,
-						ManejardoDeEntidades.getEnlace(false, false));
+				panel = fabricaP.getPanel("Citas");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+				new ControladorCitas(panel,
+						fabricaM.getModelo("Citas"));
 			}
 		});
 		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -140,6 +132,17 @@ public class Administrador extends JFrame {
 		mantenimientos.add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("Recetas");
+		lblNewLabel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				panel = fabricaP.getPanel("Recetas");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+				new ControladorRecetas(panel,
+						fabricaM.getModelo("Recetas"));
+			}
+		});
 		lblNewLabel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setIcon(new ImageIcon(Administrador.class
@@ -279,15 +282,16 @@ public class Administrador extends JFrame {
 		lblNewLabel.setBounds(0, 0, 306, 618);
 		panel_3.add(lblNewLabel);
 
-		panel = new JPanel();
-		panel.setLayout(null);
+		panel1 = new JPanel();
+		panel1.setLayout(null);
 
-		((JComponent) panel).setBorder(new EtchedBorder(EtchedBorder.LOWERED,
+		((JComponent) panel1).setBorder(new EtchedBorder(EtchedBorder.LOWERED,
 				null, null));
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(336, 103, 930, 618);
-		panel.add(PanelPaciente.getInstancia());
-		contentPane.add(panel);
+		panel1.setBackground(Color.WHITE);
+		panel1.setBounds(336, 103, 930, 618);
+		panel1.add(PanelPaciente.getInstancia());
+		new ControladorPaciente(PanelPaciente.getInstancia(), fabricaM.getModelo("Pacientes"));
+		contentPane.add(panel1);
 
 		JLabel lblAyuda = new JLabel("Ayuda");
 		lblAyuda.setIcon(new ImageIcon(Administrador.class
@@ -326,12 +330,24 @@ public class Administrador extends JFrame {
 		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel1);
 	}
+	
+	public JLabel getPacientes() {
+		return pacientes;
+	}
 
-	public void agregaPanel(JPanel panelIn2){
-		panel.removeAll();
-		panel.repaint();
-		panel.updateUI();
-		panel.add(panelIn2);
-		
+	public void setPacientes(JLabel pacientes) {
+		this.pacientes = pacientes;
+	}
+
+	public Frame getPadre(){
+		return this;
+	}
+
+	public void agregaPanel(JPanel panelIn2) {
+		panel1.removeAll();
+		panel1.repaint();
+		panel1.updateUI();
+		panel1.add(panelIn2);
+
 	}
 }
