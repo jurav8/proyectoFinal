@@ -5,9 +5,11 @@ import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -28,6 +30,8 @@ public class Panel extends JPanel{
 	protected TableRowSorter<TableModel> order;
 	protected  String [] titulo;
     private Frame padre;
+    private JLabel foto;
+    private String ruta="/Imagenes/icons/patient-icongrand.png";;
 	
 	public Frame getPadre() {
 		return padre;
@@ -138,5 +142,25 @@ public class Panel extends JPanel{
 	       tabla.getTableHeader().getColumnModel().getColumn(columna[i]).setMaxWidth(0);
 	       tabla.getTableHeader().getColumnModel().getColumn(columna[i]).setMinWidth(0);
 	  }
+	}
+
+	
+
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
+	public JLabel getFoto() {
+		if(foto == null){
+			foto = new JLabel();
+			foto.setSize(130,150);
+			foto.setBorder(new TitledBorder(null, "",
+					TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		}
+		return foto;
 	}
 }

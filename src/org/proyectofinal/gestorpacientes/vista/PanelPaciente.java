@@ -48,7 +48,6 @@ public class PanelPaciente extends Panel {
 	private JLabel lblAlergia;
 	private JLabel lblFumador;
 	private JTextArea alergia;
-	private String ruta="/Imagenes/icons/patient-icongrand.png";
 	private JTextField celular;
 	private JLabel foto;
 	private MaskFormatter mascaraTel;
@@ -130,6 +129,10 @@ public class PanelPaciente extends Panel {
 		} 
         
        
+		getFoto().setIcon(new ImageIcon(PanelPaciente.class.getResource(getRuta())));
+		getFoto().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		getFoto().addMouseListener(new LectorDeArchivos(getMe()));
+		
         celular = new JFormattedTextField(mascaraTel);
 		celular.setName("cedula");
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -266,6 +269,8 @@ public class PanelPaciente extends Panel {
 		alergia = new JTextArea();
 		scrollPane.setViewportView(alergia);
 		setLayout(groupLayout);
+		
+		
 	}
 
 	public JDateChooser getFecha() {
@@ -436,26 +441,6 @@ public class PanelPaciente extends Panel {
 		return lblFumador;
 	}
 
-	public String getRuta() {
-		// TODO Auto-generated method stub
-		return ruta;
-	}
-
-	public JLabel getFoto() {
-		if (foto == null) {
-			foto = new JLabel("");
-			foto.setHorizontalAlignment(SwingConstants.CENTER);
-			foto.setIcon(new ImageIcon(PanelPaciente.class.getResource(ruta)));
-			foto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			foto.addMouseListener(new LectorDeArchivos(getMe()));
-			foto.setBorder(new TitledBorder(null, "",
-					TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		}
-		return foto;
-	}
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
-	}
 	public PanelPaciente getMe(){
 		return this;
 		

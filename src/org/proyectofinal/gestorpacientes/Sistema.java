@@ -8,7 +8,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.proyectofinal.gestorpacientes.modelo.Manejador;
+import org.proyectofinal.gestorpacientes.modelo.ModeloMedico;
+import org.proyectofinal.gestorpacientes.modelo.ModeloUsuario;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Login;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Usuario;
 import org.proyectofinal.gestorpacientes.vista.Administrador;
 import org.proyectofinal.gestorpacientes.vista.Splash;
 
@@ -28,16 +32,16 @@ public class Sistema {
 		// Padecimientos pa = con.consultarPadecimiento(2);
 		// con.eliminar(pa);
 
-		/*
-		 * ModeloMedico mdm=ModeloMedico.getInstancia(false, false);
-		 * ModeloUsuario mdu=ModeloUsuario.getInstancia(false, false); Medico
-		 * medico=new Medico(); medico.setApellido("hernandez");
-		 * medico.setCedula("001-8288292-3");
-		 * medico.setDireccion("sabana perdida"); medico.setNombre("juan");
-		 * medico.setTelefonoCasa("809-883-3232"); Usuario usuario=new
-		 * Usuario("doctorh","1234"); mdu.crear(usuario);
-		 * medico.setUsuario(usuario); mdm.crear(medico);
-		 */
+		
+		  ModeloMedico mdm=ModeloMedico.getInstancia(false, false);
+		  ModeloUsuario mdu=ModeloUsuario.getInstancia(false, false); Medico
+		  medico=new Medico(); medico.setApellido("hernandez");
+		  medico.setCedula("001-8288292-3");
+		  medico.setDireccion("sabana perdida"); medico.setNombre("juan");
+		  medico.setTelefonoCasa("809-883-3232"); Usuario usuario=new
+		  Usuario("doctorh","1234"); mdu.crear(usuario);
+		  medico.setUsuario(usuario); mdm.crear(medico);
+		 
 
 		System.gc();
 		try {
@@ -56,7 +60,7 @@ public class Sistema {
 		sp.getBarra().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				
-				Manejador.getInstancia(false, false);
+				Manejador.getInstancia(false,false);
 
 				if (sp.getBarra().getValue() == 100) {
 					sp.dispose();
