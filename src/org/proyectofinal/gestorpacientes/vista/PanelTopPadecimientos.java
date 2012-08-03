@@ -10,9 +10,11 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.proyectofinal.gestorpacientes.modelo.Manejador;
-import org.proyectofinal.gestorpacientes.modelo.ModeloCita;
 import org.proyectofinal.gestorpacientes.modelo.ModeloEstadistica;
+import org.proyectofinal.gestorpacientes.modelo.ModeloPadecimiento;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Estadistica;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Padecimientos;
+
 import java.awt.SystemColor;
 import javax.swing.border.TitledBorder;
 
@@ -20,20 +22,13 @@ public class PanelTopPadecimientos extends Panel{
 	
 
 	private ModeloEstadistica estadisticaModelo;
-	private static PanelTopPadecimientos   instancia;
-	
-	public static PanelTopPadecimientos  getInstancia(){
-		if(instancia==null){
-			instancia=new PanelTopPadecimientos ();
-		}
-		return instancia;
-	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4807470566872635396L;
 	
-	private PanelTopPadecimientos (){
+	public PanelTopPadecimientos (){
 		setBackground(Color.WHITE);
 		setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		estadisticaModelo = ModeloEstadistica.getInstancia((Manejador.getInstancia(false, false)));
@@ -51,7 +46,7 @@ public class PanelTopPadecimientos extends Panel{
 					String val2 = "";
 					val2 += estadist.getMedicoId();
 					
-					dataset.setValue(val, "Padecimiento", val2 );
+					dataset.setValue(val, "Padecimiento", ((Padecimientos)ModeloPadecimiento.getInstancia(false, false).consultar(Integer.parseInt(val2))).getNombre() );
 					
 				}
 				
