@@ -50,14 +50,12 @@ public class ModeloEstadistica {
 
 	public Object getEstadisticaPadecimiento() {
 		manejador.getSession().beginTransaction().begin();
-		Query q = manejador
-				.getSession()
+		Query q = manejador.getSession()
 				.createQuery(
-						"select count(nombre) as total from Padecimientos group by nombre order by nombre");
-		Query qu = manejador
-				.getSession()
+						"select count(padecimiento_id) as total from Recetas group by padecimiento_id order by padecimiento_id");
+		Query qu = manejador.getSession()
 				.createQuery(
-						"select nombre  as total from Padecimientos group by nombre order by nombre");
+						"select padecimiento as total from Recetas group by padecimiento_id order by padecimiento_id");
 		q.setMaxResults(10);
 		qu.setMaxResults(10);
 		ArrayList<Long> estadisticaCuenta = (ArrayList<Long>) qu.list();

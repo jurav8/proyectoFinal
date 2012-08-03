@@ -97,10 +97,13 @@ public class ModeloHistorial {
 	public Asistentes getAsistente(int id){
 		manejador.getSession().beginTransaction().begin();
 		
-		String query = "from Asistentes where usuario_id ="+id;
+		String query = "from Asistentes where usuario_id ='"+id+"'";
 		Query q = manejador.getSession().createQuery(query);
 		List<Asistentes> asistente = q.list();
 		
+		for(Asistentes asistentes: asistente){
+			System.out.println(asistentes.getApellido());
+		}
 		manejador.getSession().getTransaction().commit();
 		return asistente.get(0);
 	}

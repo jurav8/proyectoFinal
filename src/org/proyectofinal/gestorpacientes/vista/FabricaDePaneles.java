@@ -24,10 +24,10 @@ public class FabricaDePaneles {
 			panel=PanelListaDePacientes.getInstancia();
 		}
 		else if(peticion.equals("Top medicos")){
-			panel=PanelTopMedicos.getInstancia();
+			panel= new PanelTopMedicos();
 		}
 		else if(peticion.equals("Top padecimientos")){
-			panel=PanelTopPadecimientos.getInstancia();
+			panel= new PanelTopPadecimientos();
 		}
 		return panel;
 		

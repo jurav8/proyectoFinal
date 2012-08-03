@@ -25,6 +25,7 @@ public class Recetas {
 	@ManyToOne
 	@JoinColumn(name = "paciente_id")
 	private Paciente idPaciente;
+	private int padecimiento;
 	
 	public int getIdReceta() {
 		return idReceta;
@@ -53,5 +54,11 @@ public class Recetas {
 
 	public void setIdPaciente(Paciente idPaciente) {
 		this.idPaciente = idPaciente;
+	}
+	public int getPadecimiento() {
+		return padecimiento;
+	}
+	public void setPadecimiento(int padecimiento) {
+		this.padecimiento = padecimiento;
 	}
 }

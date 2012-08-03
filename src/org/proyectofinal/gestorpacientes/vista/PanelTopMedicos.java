@@ -10,30 +10,24 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.proyectofinal.gestorpacientes.modelo.Manejador;
-import org.proyectofinal.gestorpacientes.modelo.ModeloCita;
 import org.proyectofinal.gestorpacientes.modelo.ModeloEstadistica;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Estadistica;
-import java.awt.SystemColor;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
+
 import javax.swing.border.TitledBorder;
 
 public class PanelTopMedicos extends Panel {
 
 	private ModeloEstadistica estadisticaModelo;
-	private static PanelTopMedicos instancia;
+//	private static PanelTopMedicos instancia;
 
-	public static PanelTopMedicos getInstancia() {
-		if (instancia == null) {
-			instancia = new PanelTopMedicos();
-		}
-		return instancia;
-	}
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4807470566872635396L;
 
-	private PanelTopMedicos() {
+	public PanelTopMedicos() {
 		setBackground(Color.WHITE);
 		setBorder(new TitledBorder(null, "", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
@@ -56,7 +50,7 @@ public class PanelTopMedicos extends Panel {
 			String val2 = "";
 			val2 += estadist.getMedicoId();
 
-			dataset.setValue(val, "Medico", val2);
+			dataset.setValue(val, "Medico", ((Medico) Manejador.getInstancia(false, false).getSession().get(Medico.class, Integer.parseInt(val2))).getNombre());
 
 		}
 		JFreeChart chartMedico = ChartFactory.createBarChart(

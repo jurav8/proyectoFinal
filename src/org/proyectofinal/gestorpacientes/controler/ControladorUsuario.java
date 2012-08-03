@@ -93,8 +93,13 @@ public class ControladorUsuario extends AbstractAction {
 		usuario = vista.getUsuario().getText();
 		clave = vista.getClave().getText();
 		rango = vista.getPerfil().getSelectedItem().toString();
-		idPersona=Integer.valueOf(vista.getIdPersona().getText());
-		usuarioM = model.getUsuario(usuario, clave);
+		if(!vista.getIdPersona().getText().equals(""))
+			idPersona=Integer.valueOf(vista.getIdPersona().getText());
+		try{
+			usuarioM = model.getUsuario(usuario, clave);
+		}catch(Exception ex){
+			System.out.println("guarda");
+		}
 
 		if (comando.equals("Guardar")) {
 			if (vista.getPerfil().getSelectedItem().equals(Perfiles.Asistente))

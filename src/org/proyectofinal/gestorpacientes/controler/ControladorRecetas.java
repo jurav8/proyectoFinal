@@ -71,6 +71,8 @@ public class ControladorRecetas extends AbstractAction {
 				.parseInt(vista.getIdPaciente().getText())));
 		receta.setIdPadecimientos((Padecimientos) modeloPad.consultar(Integer
 				.parseInt(vista.getIdPadecimiento().getText())));
+		receta.setPadecimiento((Integer
+				.parseInt(vista.getIdPadecimiento().getText())));
 
 		if (comando.equals("Guardar")) {
 			modelo.crear(receta);
