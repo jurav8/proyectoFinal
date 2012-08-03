@@ -7,7 +7,7 @@ public class FabricaDeModelos {
 	public Modelo getModelo(String peticion) {
 		modelo = null;
 		if (peticion.equals("Usuarios")) {
-
+             modelo=ModeloUsuario.getInstancia(false, false);
 		} else if (peticion.equals("Pacientes")) {
 			modelo = ModeloPaciente.getInstancia(false, false);
 		} else if (peticion.equals("Citas")) {

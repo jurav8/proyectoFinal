@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Usuario.getAll", query = "from Usuario")
 public class Usuario {
 	
 	@Id
@@ -21,10 +23,11 @@ public class Usuario {
 		
 	}
 
-	public Usuario(String usuario, String clave) {
+	public Usuario(String usuario, String clave,String rango) {
 		super();
 		this.usuario = usuario;
 		this.clave = clave;
+		this.rango=rango;
 	}
 	public int getIdUsuario() {
 		return idUsuario;

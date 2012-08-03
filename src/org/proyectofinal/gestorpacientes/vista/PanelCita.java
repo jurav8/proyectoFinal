@@ -22,6 +22,8 @@ import javax.swing.JFormattedTextField;
 import org.proyectofinal.gestorpacientes.controler.ControladorPaciente;
 import org.proyectofinal.gestorpacientes.controler.ControladorVP;
 import org.proyectofinal.gestorpacientes.modelo.FabricaDeModelos;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaMedico;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPaciente;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -12,8 +12,8 @@ import org.proyectofinal.gestorpacientes.modelo.ModeloPadecimiento;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Padecimientos;
 import org.proyectofinal.gestorpacientes.vista.Administrador;
-import org.proyectofinal.gestorpacientes.vista.VentanaPaciente;
-import org.proyectofinal.gestorpacientes.vista.VentanaPadecimiento;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPaciente;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPadecimiento;
 
 public class ControladorPadecimiento extends AbstractAction {
 	/**

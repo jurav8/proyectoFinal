@@ -47,6 +47,17 @@ public class ModeloUsuario implements Modelo {
 		return (Usuario) manejador.getSession().get(Usuario.class, id);
 	}
 
+	public Usuario getUsuario(String usuario, String clave){
+		manejador.getSession().beginTransaction().begin();
+		
+		String query = "from Usuario where usuario ='"+usuario +"'"+" and clave='"+clave+"'" ;
+		Query q = manejador.getSession().createQuery(query);
+		List<Usuario> usuarios = q.list();
+		
+		manejador.getSession().getTransaction().commit();
+		return usuarios.get(0);
+	}
+	
 	@Override
 	public void modificar(Object obj) {
 
