@@ -3,32 +3,23 @@ package org.proyectofinal.gestorpacientes.controler;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 import org.proyectofinal.gestorpacientes.vista.Panel;
-import org.proyectofinal.gestorpacientes.vista.PanelPaciente;
 
 
 public class LectorDeArchivos extends MouseAdapter {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JFileChooser selector = new JFileChooser();
-	private PanelPaciente panel;
+	private Panel panel;
 
 	public LectorDeArchivos(Panel panel) {
 		super();
-		this.panel = (PanelPaciente) panel;
+		this.panel = (Panel) panel;
 	}
 
 	public void mousePressed(MouseEvent ae) {

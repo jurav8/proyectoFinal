@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Estadistica;
 
 public class ModeloEstadistica {
 	

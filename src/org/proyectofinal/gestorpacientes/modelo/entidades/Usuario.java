@@ -15,6 +15,7 @@ public class Usuario {
 	private int idUsuario;
 	private String usuario;
 	private String clave;
+	private String rango;
 	
 	public Usuario(){
 		
@@ -42,6 +43,14 @@ public class Usuario {
 	}
 	public void setClave(String clave) {
 		this.clave = clave;
+	}
+
+	public String getRango() {
+		return rango;
+	}
+
+	public void setRango(String rango) {
+		this.rango = rango;
 	}
 	
 	

@@ -13,9 +13,9 @@ public class FabricaDeModelos {
 		} else if (peticion.equals("Citas")) {
 			modelo = ModeloCita.getInstancia(false, false);
 		} else if (peticion.equals("Medicos")) {
-			modelo = ModeloMedico.getInstancia(false, false);
+			modelo = ModeloMedico.getInstancia(false,false);
 		} else if (peticion.equals("Recetas")) {
-			modelo = ModeloReceta.getInstancia(false, false);
+			modelo = ModeloReceta.getInstancia(false,false);
 		}
 		 else if (peticion.equals("Padecimientos")) {
 				modelo = ModeloPadecimiento.getInstancia(false, false);

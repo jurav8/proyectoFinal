@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -24,12 +25,19 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Frame;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.proyectofinal.gestorpacientes.controler.ControladorCitas;
+import org.proyectofinal.gestorpacientes.controler.ControladorListadoPaciente;
 import org.proyectofinal.gestorpacientes.controler.ControladorPaciente;
 import org.proyectofinal.gestorpacientes.controler.ControladorRecetas;
 import org.proyectofinal.gestorpacientes.modelo.FabricaDeModelos;
 import org.proyectofinal.gestorpacientes.modelo.Modelo;
+import org.proyectofinal.gestorpacientes.modelo.entidades.CriterioDeBusqueda;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -39,13 +47,15 @@ public class Administrador extends JFrame {
 	private JPanel contentPane;
 	private JLabel Opt;
 	private JComboBox comboBox;
-	private JTextField textField;
+	private JTextField buscador;
 	private JPanel panel1;
 	private Panel panel;
 	private Modelo modelo;
 	private FabricaDePaneles fabricaP;
 	private FabricaDeModelos fabricaM;
 	private JLabel pacientes;
+	private TableRowSorter<TableModel> modeloOrdenado;
+	private JComboBox comboBuscador;
 
 	public Administrador() {
 		init();
@@ -54,7 +64,7 @@ public class Administrador extends JFrame {
 	public void init() {
 
 		fabricaP = new FabricaDePaneles();
-		fabricaM=new FabricaDeModelos();
+		fabricaM = new FabricaDeModelos();
 		setTitle("Administrador");
 
 		setBackground(Color.WHITE);
@@ -77,7 +87,7 @@ public class Administrador extends JFrame {
 		JOutlookBar outlookBar = new JOutlookBar();
 		outlookBar.setAutoscrolls(true);
 		outlookBar.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		outlookBar.setBounds(0, 0, 306, 341);
+		outlookBar.setBounds(0, 0, 306, 363);
 		panel_3.add(outlookBar);
 		outlookBar.setBackground(new Color(248, 248, 255));
 
@@ -97,12 +107,13 @@ public class Administrador extends JFrame {
 		pacientes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				System.out.println("este si");
 				panel = fabricaP.getPanel(pacientes.getText());
-				modelo= fabricaM.getModelo(pacientes.getText());
+				modelo = fabricaM.getModelo(pacientes.getText());
 				panel.setVisible(true);
 				panel.setPadre(getPadre());
 				agregaPanel(panel);
-				new ControladorPaciente(panel,modelo);
+				new ControladorPaciente(panel, modelo);
 			}
 		});
 		pacientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -120,8 +131,7 @@ public class Administrador extends JFrame {
 				panel.setVisible(true);
 				panel.setPadre(getPadre());
 				agregaPanel(panel);
-				new ControladorCitas(panel,
-						fabricaM.getModelo("Citas"));
+				new ControladorCitas(panel, fabricaM.getModelo("Citas"));
 			}
 		});
 		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -139,8 +149,7 @@ public class Administrador extends JFrame {
 				panel.setVisible(true);
 				panel.setPadre(getPadre());
 				agregaPanel(panel);
-				new ControladorRecetas(panel,
-						fabricaM.getModelo("Recetas"));
+				new ControladorRecetas(panel, fabricaM.getModelo("Recetas"));
 			}
 		});
 		lblNewLabel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -151,12 +160,34 @@ public class Administrador extends JFrame {
 		mantenimientos.add(lblNewLabel_3);
 
 		JLabel lblUsuarios = new JLabel("Usuarios");
+		lblUsuarios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				panel = fabricaP.getPanel("Usuarios");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+			}
+		});
 		lblUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblUsuarios.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/Add-Male-User-icon.png")));
 		lblUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsuarios.setBounds(1, 0, 312, 24);
 		mantenimientos.add(lblUsuarios);
+		
+		JLabel lblPruebasDeLaboratorio = new JLabel("Pruebas de laboratorio");
+		lblPruebasDeLaboratorio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+		});
+		lblPruebasDeLaboratorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblPruebasDeLaboratorio.setIcon(new ImageIcon(Administrador.class.getResource("/Imagenes/icons/Lab-icon.png")));
+		lblPruebasDeLaboratorio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPruebasDeLaboratorio.setBounds(1, 107, 312, 24);
+		mantenimientos.add(lblPruebasDeLaboratorio);
 
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBackground(SystemColor.textHighlightText);
@@ -175,6 +206,12 @@ public class Administrador extends JFrame {
 		separator_1.setBackground(SystemColor.textHighlightText);
 		separator_1.setBounds(1, 25, 313, 3);
 		mantenimientos.add(separator_1);
+		
+		JSeparator separator_6 = new JSeparator();
+		separator_6.setForeground(SystemColor.control);
+		separator_6.setBackground(SystemColor.textHighlightText);
+		separator_6.setBounds(1, 104, 313, 3);
+		mantenimientos.add(separator_6);
 
 		JPanel busqueda = new JPanel();
 		busqueda.setSize(new Dimension(20, 13));
@@ -193,20 +230,52 @@ public class Administrador extends JFrame {
 		lblNewLabel_4.setBounds(90, 12, 120, 16);
 		busqueda.add(lblNewLabel_4);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "Nombre",
-				"Apellido", "C\u00E9dula" }));
-		comboBox_1.setBounds(55, 33, 201, 22);
-		busqueda.add(comboBox_1);
+		comboBuscador = new JComboBox();
+		comboBuscador.setModel(new DefaultComboBoxModel(CriterioDeBusqueda
+				.values()));
+		comboBuscador.setBounds(55, 33, 201, 22);
+		busqueda.add(comboBuscador);
 
 		JLabel lblTodoOParte = new JLabel("Todo o parte de la palabra a buscar");
 		lblTodoOParte.setBounds(54, 67, 202, 16);
 		busqueda.add(lblTodoOParte);
 
-		textField = new JTextField();
-		textField.setBounds(55, 86, 201, 20);
-		busqueda.add(textField);
-		textField.setColumns(10);
+		buscador = new JTextField();
+		buscador.setBounds(55, 86, 201, 20);
+		busqueda.add(buscador);
+		buscador.setColumns(10);
+
+		buscador.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// Filtro para el buscador
+				panel = fabricaP.getPanel("Lista de pacientes");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+				new ControladorListadoPaciente(panel, fabricaM
+						.getModelo("Pacientes"));
+				modeloOrdenado = new TableRowSorter<TableModel>(panel
+						.getTablaPorDefecto());
+				panel.getTabla().setRowSorter(modeloOrdenado);
+				if (comboBuscador.getSelectedItem().equals(
+						CriterioDeBusqueda.nombre)) {
+					modeloOrdenado.setRowFilter(RowFilter.regexFilter(
+							buscador.getText(), 1));
+				}
+				else if(comboBuscador.getSelectedItem().equals(
+						CriterioDeBusqueda.apellido)) {
+					modeloOrdenado.setRowFilter(RowFilter.regexFilter(
+							buscador.getText(), 2));
+				}
+				else if(comboBuscador.getSelectedItem().equals(
+						CriterioDeBusqueda.cedula)) {
+					modeloOrdenado.setRowFilter(RowFilter.regexFilter(
+							buscador.getText(), 3));
+				}
+			}
+		});
 
 		JPanel listados = new JPanel();
 		listados.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null,
@@ -226,7 +295,7 @@ public class Administrador extends JFrame {
 		lblListaDeMdicos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListaDeMdicos.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/nurse-icon.png")));
-		lblListaDeMdicos.setBounds(0, 21, 304, 16);
+		lblListaDeMdicos.setBounds(0, 26, 304, 16);
 		listados.add(lblListaDeMdicos);
 
 		JLabel lblListaDePacientes = new JLabel("Lista de pacientes");
@@ -235,11 +304,11 @@ public class Administrador extends JFrame {
 		lblListaDePacientes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListaDePacientes.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/patient-icon.png")));
-		lblListaDePacientes.setBounds(0, 76, 304, 16);
+		lblListaDePacientes.setBounds(0, 81, 304, 16);
 		listados.add(lblListaDePacientes);
 
 		JSeparator separator_4 = new JSeparator();
-		separator_4.setBounds(0, 55, 304, 3);
+		separator_4.setBounds(0, 59, 304, 3);
 		listados.add(separator_4);
 
 		JPanel estadisticas = new JPanel();
@@ -254,24 +323,42 @@ public class Administrador extends JFrame {
 		estadisticas.setLayout(null);
 
 		JLabel lbldicos = new JLabel("M\u00E9dicos mas visitados");
+		lbldicos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				panel = fabricaP.getPanel("Top medicos");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+			}
+		});
 		lbldicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lbldicos.setHorizontalAlignment(SwingConstants.CENTER);
 		lbldicos.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/nurse-icon.png")));
-		lbldicos.setBounds(0, 15, 304, 25);
+		lbldicos.setBounds(0, 26, 304, 25);
 		estadisticas.add(lbldicos);
 
 		JLabel lblPadecimientos = new JLabel("Padecimientos mas frecuentes");
+		lblPadecimientos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				panel = fabricaP.getPanel("Top padecimientos");
+				panel.setVisible(true);
+				panel.setPadre(getPadre());
+				agregaPanel(panel);
+			}
+		});
 		lblPadecimientos.setCursor(Cursor
 				.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblPadecimientos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPadecimientos.setIcon(new ImageIcon(Administrador.class
 				.getResource("/Imagenes/icons/broken-icon.png")));
-		lblPadecimientos.setBounds(0, 76, 304, 16);
+		lblPadecimientos.setBounds(0, 91, 304, 16);
 		estadisticas.add(lblPadecimientos);
 
 		JSeparator separator_5 = new JSeparator();
-		separator_5.setBounds(0, 55, 304, 3);
+		separator_5.setBounds(0, 68, 304, 3);
 		estadisticas.add(separator_5);
 
 		JLabel lblNewLabel = new JLabel("New label");
@@ -290,7 +377,8 @@ public class Administrador extends JFrame {
 		panel1.setBackground(Color.WHITE);
 		panel1.setBounds(336, 103, 930, 618);
 		panel1.add(PanelPaciente.getInstancia());
-		new ControladorPaciente(PanelPaciente.getInstancia(), fabricaM.getModelo("Pacientes"));
+		new ControladorPaciente(PanelPaciente.getInstancia(),
+				fabricaM.getModelo("Pacientes"));
 		contentPane.add(panel1);
 
 		JLabel lblAyuda = new JLabel("Ayuda");
@@ -330,7 +418,7 @@ public class Administrador extends JFrame {
 		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel1);
 	}
-	
+
 	public JLabel getPacientes() {
 		return pacientes;
 	}
@@ -339,7 +427,7 @@ public class Administrador extends JFrame {
 		this.pacientes = pacientes;
 	}
 
-	public Frame getPadre(){
+	public Frame getPadre() {
 		return this;
 	}
 
