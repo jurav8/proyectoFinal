@@ -98,7 +98,7 @@ public class ControladorUsuario extends AbstractAction {
 		try{
 			usuarioM = model.getUsuario(usuario, clave);
 		}catch(Exception ex){
-			System.out.println("guarda");
+//			System.out.println("guarda");?
 		}
 
 		if (comando.equals("Guardar")) {
