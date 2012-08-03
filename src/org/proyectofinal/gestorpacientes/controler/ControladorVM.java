@@ -10,8 +10,8 @@ import org.proyectofinal.gestorpacientes.modelo.ModeloPaciente;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
 import org.proyectofinal.gestorpacientes.vista.Administrador;
-import org.proyectofinal.gestorpacientes.vista.VentanaMedico;
-import org.proyectofinal.gestorpacientes.vista.VentanaPaciente;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaMedico;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPaciente;
 
 public class ControladorVM extends AbstractAction {
 	/**

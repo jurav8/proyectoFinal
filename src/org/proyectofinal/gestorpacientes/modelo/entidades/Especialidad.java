@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Especialidad.getAll", query = "from Especialidad")
 public class Especialidad {
 
 	@Id
