@@ -15,6 +15,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPaciente;
+import org.proyectofinal.gestorpacientes.vista.dialogos.VentanaPadecimiento;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

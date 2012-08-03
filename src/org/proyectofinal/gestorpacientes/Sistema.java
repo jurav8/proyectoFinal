@@ -10,10 +10,11 @@ import javax.swing.event.ChangeListener;
 import org.proyectofinal.gestorpacientes.modelo.Manejador;
 import org.proyectofinal.gestorpacientes.modelo.ModeloMedico;
 import org.proyectofinal.gestorpacientes.modelo.ModeloUsuario;
-import org.proyectofinal.gestorpacientes.modelo.entidades.Login;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Usuario;
 import org.proyectofinal.gestorpacientes.vista.Administrador;
+import org.proyectofinal.gestorpacientes.vista.Asistente;
+import org.proyectofinal.gestorpacientes.vista.Login;
 import org.proyectofinal.gestorpacientes.vista.Splash;
 
 import de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel;
@@ -33,7 +34,7 @@ public class Sistema {
 		// con.eliminar(pa);
 
 		
-		  ModeloMedico mdm=ModeloMedico.getInstancia(false, false);
+	/*	  ModeloMedico mdm=ModeloMedico.getInstancia(false, false);
 		  ModeloUsuario mdu=ModeloUsuario.getInstancia(false, false); Medico
 		  medico=new Medico(); medico.setApellido("hernandez");
 		  medico.setCedula("001-8288292-3");
@@ -41,7 +42,7 @@ public class Sistema {
 		  medico.setTelefonoCasa("809-883-3232"); Usuario usuario=new
 		  Usuario("doctorh","1234"); mdu.crear(usuario);
 		  medico.setUsuario(usuario); mdm.crear(medico);
-		 
+		 */
 
 		System.gc();
 		try {
@@ -68,7 +69,7 @@ public class Sistema {
 						UIManager
 								.setLookAndFeel(new SyntheticaSkyMetallicLookAndFeel());
 						new Login().setVisible(true);
-						new Administrador().setVisible(true);
+						
 					} catch (UnsupportedLookAndFeelException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

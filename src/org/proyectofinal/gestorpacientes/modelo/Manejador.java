@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import org.proyectofinal.gestorpacientes.modelo.entidades.Administrador;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Asistentes;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Especialidad;
@@ -28,6 +29,7 @@ public class Manejador {
 
 		config = new AnnotationConfiguration();
 		config.addAnnotatedClass(Asistentes.class);
+		config.addAnnotatedClass(Administrador.class);
 		config.addAnnotatedClass(Citas.class);
 		config.addAnnotatedClass(Especialidad.class);
 		config.addAnnotatedClass(Medico.class);

@@ -32,6 +32,7 @@ import org.proyectofinal.gestorpacientes.controler.ControladorCitas;
 import org.proyectofinal.gestorpacientes.controler.ControladorListadoPaciente;
 import org.proyectofinal.gestorpacientes.controler.ControladorPaciente;
 import org.proyectofinal.gestorpacientes.controler.ControladorRecetas;
+import org.proyectofinal.gestorpacientes.controler.ControladorUsuario;
 import org.proyectofinal.gestorpacientes.modelo.FabricaDeModelos;
 import org.proyectofinal.gestorpacientes.modelo.Modelo;
 import org.proyectofinal.gestorpacientes.modelo.entidades.CriterioDeBusqueda;
@@ -167,6 +168,7 @@ public class Administrador extends JFrame {
 				panel.setVisible(true);
 				panel.setPadre(getPadre());
 				agregaPanel(panel);
+				new ControladorUsuario(panel, fabricaM.getModelo("Usuarios"));
 			}
 		});
 		lblUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

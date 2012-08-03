@@ -131,7 +131,6 @@ public class Panel extends JPanel{
 		return boton;
 	}
 	
-	
 	@SuppressWarnings("unused")
 	protected void ocultaColumnas(JTable tabla, int columna[])
 	{
@@ -143,8 +142,6 @@ public class Panel extends JPanel{
 	       tabla.getTableHeader().getColumnModel().getColumn(columna[i]).setMinWidth(0);
 	  }
 	}
-
-	
 
 	public String getRuta() {
 		return ruta;
