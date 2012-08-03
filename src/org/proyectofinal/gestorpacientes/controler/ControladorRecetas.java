@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import org.proyectofinal.gestorpacientes.modelo.Impresora;
 import org.proyectofinal.gestorpacientes.modelo.Modelo;
 import org.proyectofinal.gestorpacientes.modelo.ModeloCita;
 import org.proyectofinal.gestorpacientes.modelo.ModeloMedico;
@@ -18,6 +17,7 @@ import org.proyectofinal.gestorpacientes.modelo.ModeloPadecimiento;
 import org.proyectofinal.gestorpacientes.modelo.ModeloReceta;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Citas;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Especialidad;
+import org.proyectofinal.gestorpacientes.modelo.entidades.Impresora;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Medico;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Paciente;
 import org.proyectofinal.gestorpacientes.modelo.entidades.Padecimientos;
